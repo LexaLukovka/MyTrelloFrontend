@@ -12,11 +12,8 @@ const theme = createMuiTheme({
       fontSize: '1.19rem',
     },
     body1: {
-      fontSize: '0.9rem',
-      letterSpacing: '0.5px',
-    },
-    body2: {
-      letterSpacing: '-0.7px',
+      fontSize: '0.8rem',
+      letterSpacing: '0',
     },
     caption: {
       fontSize: '0.7rem',

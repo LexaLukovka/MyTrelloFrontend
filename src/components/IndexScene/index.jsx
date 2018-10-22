@@ -1,24 +1,14 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core'
 import { object } from 'prop-types'
+import { withStyles } from '@material-ui/core'
 import connector from './connector'
+import GroupCards from 'components/IndexScene/GroupCards'
 
-const styles = {
+const styles = () => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    height: '100%',
-    maxWidth: 600,
-    margin: '0 auto',
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingTop: 30,
   },
-
-  button: {
-    marginBottom: 15,
-  },
-}
+})
 
 class IndexScene extends React.Component {
   componentDidMount() {
@@ -35,7 +25,9 @@ class IndexScene extends React.Component {
   render() {
     const { classes } = this.props
     return (
-      <div className={classes.root} />
+      <div className={classes.root}>
+        <GroupCards />
+      </div>
     )
   }
 }

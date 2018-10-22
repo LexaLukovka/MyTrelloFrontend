@@ -21,7 +21,6 @@ class FormikPassword extends Component {
     return <TextField
       {...props}
       {...field}
-      InputLabelProps={{ shrink: true }}
       fullWidth
       margin="dense"
       error={(form.submitCount > 0) && !!form.errors[field.name]}
