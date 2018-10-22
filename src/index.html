@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>MyTrello</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, minimum-scale=1, shrink-to-fit=no" name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="msapplication-TileColor" content="#9f00a7">
+  <meta name="theme-color" content="#9306bc">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" type="text/css" href="/index.css">
+</head>
+<body>
+<script>
+  window.fbAsyncInit = function () {
+    FB.init({
+      appId: '2175525285996959',
+      xfbml: true,
+      version: 'v3.1',
+    })
+    FB.AppEvents.logPageView()
+  };
+
+  (function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0]
+    if (d.getElementById(id)) {return}
+    js = d.createElement(s)
+    js.id = id
+    js.src = 'https://connect.facebook.net/en_US/sdk.js'
+    fjs.parentNode.insertBefore(js, fjs)
+  }(document, 'script', 'facebook-jssdk'))
+</script>
+
+<div id="root"></div>
+
+<script>
+  // if ('serviceWorker' in navigator) {
+  //   navigator.serviceWorker.register('/sw.js')
+  //     .then(function (response) {
+  //       // Service worker registration done
+  //       console.log('Registration Successful', response)
+  //     }, function (error) {
+  //       // Service worker registration failed
+  //       console.log('Registration Failed', error)
+  //     })
+  // }
+</script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBA0E-RRtQWldjEQLFkAOWDgMSj295C0Lo&libraries=places,visualization&language=ru-RU">
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: 'ca-pub-6481242615301024',
+    enable_page_level_ads: true
+  })
+</script>
+</body>
+</html>

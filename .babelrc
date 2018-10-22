@@ -1,0 +1,24 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": [
+            "last 2 Chrome versions"
+          ]
+        }
+      }
+    ],
+    "react"
+  ],
+  "plugins": [
+    "lodash",
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    "transform-decorators-legacy",
+    "react-hot-loader/babel",
+    "transform-export-extensions"
+  ]
+}
