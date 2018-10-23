@@ -29,6 +29,7 @@ class IndexScene extends React.Component {
   render() {
     const { classes, loading, groupCard: { groupCard } } = this.props
     if (loading) return <Loading />
+
     return (
       <div className={classes.root}>
         <GroupCards groupCard={groupCard} />

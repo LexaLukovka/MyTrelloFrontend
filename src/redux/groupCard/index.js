@@ -1,7 +1,6 @@
 import storage from 'redux-persist/lib/storage'
 import { persistReducer } from 'redux-persist'
 import { combineReducers } from 'redux'
-import createReducer from './create/reducer'
 import loadReducer from './load/reducer'
 
 const persistConfig = {
@@ -11,7 +10,6 @@ const persistConfig = {
 }
 
 const groupCard = combineReducers({
-  createReducer,
   loadReducer,
 })
 

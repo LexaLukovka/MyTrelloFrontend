@@ -15,7 +15,7 @@ const styles = () => ({
 
 const GroupCards = ({ classes, groupCard }) =>
   <div className={classes.root}>
-    {groupCard.map(group => <GroupCard key={group._id} title={group.title} />)}
+    {groupCard.map(group => <GroupCard key={group._id} title={group.title} groupId={group._id} />)}
     <AddGroupCard />
   </div>
 
