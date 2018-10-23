@@ -36,6 +36,11 @@ class GroupCard extends React.Component {
     actions.task.closeOneTask()
   }
 
+  handleDeleteGroupCard = (groupId) => {
+    const { actions } = this.props
+    actions.group.deleteGroup(groupId)
+  }
+
   render() {
     const { classes, title, tasks, groupId, openTask: { openId } } = this.props
 
@@ -44,7 +49,7 @@ class GroupCard extends React.Component {
         <CardHeader
           className={classes.title}
           title={<Typography variant="subheading">{title}</Typography>}
-          action={<IconButton><DeleteIcon /></IconButton>}
+          action={<IconButton onClick={() => this.handleDeleteGroupCard(groupId)}><DeleteIcon /></IconButton>}
         />
         <CardContent className={classes.content}>
           {openId === groupId ?

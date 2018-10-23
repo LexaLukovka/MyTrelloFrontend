@@ -9,6 +9,10 @@ class GroupCard {
   create(title) {
     return Http.post('/groupCard', title)
   }
+
+  delete(groupId) {
+    return Http.delete(`/groupCard/${groupId}`)
+  }
 }
 
 export default new GroupCard()
