@@ -13,7 +13,16 @@ const formik = withFormik({
   }),
 
   handleSubmit: (values, { props: { actions }, setErrors, setSubmitting }) => {
-    console.log(values)
+    actions.task.create(values)
+      .then(() => {
+        setSubmitting(false)
+        actions.openTask.closeOneTask()
+        actions.groupCardLoad.load()
+      })
+      .catch(errors => {
+        setSubmitting(false)
+        setErrors(transformValidationApi(errors))
+      })
   },
   displayName: 'CreateTask',
 })

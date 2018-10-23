@@ -6,7 +6,8 @@ import AddIcon from 'mdi-react/AddIcon'
 const styles = () => ({
   root: {
     display: 'flex',
-    padding: 10,
+    padding: '5px 10px',
+    opacity: 0.8,
   },
 })
 const ClickAddTask = ({ classes, openInput }) =>

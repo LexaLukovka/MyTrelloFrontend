@@ -9,13 +9,13 @@ const styles = () => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
   },
 })
 
 const GroupCards = ({ classes, groupCard }) =>
   <div className={classes.root}>
-    {groupCard.map(group => <GroupCard key={group._id} title={group.title} groupId={group._id} />)}
+    {groupCard.map(group => <GroupCard key={group._id} title={group.title} tasks={group.tasks} groupId={group._id} />)}
     <AddGroupCard />
   </div>
 
