@@ -12,7 +12,12 @@ const theme = createMuiTheme({
       fontSize: '1.19rem',
     },
     body1: {
+      fontSize: '0.9rem',
+      letterSpacing: '0.5px',
+    },
+    body2: {
       fontSize: '0.8rem',
+      fontWeight: '400',
       letterSpacing: '0',
     },
     caption: {

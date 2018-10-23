@@ -3,6 +3,7 @@ import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 import authReducer from './auth/reducer'
+import groupCard from './groupCard'
 import layoutReducer from './layout/reducer'
 import headerReducer from './header/reducer'
 import alertReducer from './alert/reducer'
@@ -14,6 +15,7 @@ const persistConfig = {
 }
 
 const reducers = combineReducers({
+  groupCard,
   authReducer,
   layoutReducer,
   headerReducer,

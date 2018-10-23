@@ -1,5 +1,6 @@
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
+import transformValidationApi from 'utils/transformValidationApi'
 
 const formik = withFormik({
   validationSchema: Yup.object()
@@ -11,8 +12,16 @@ const formik = withFormik({
     title: '',
   }),
 
-  handleSubmit: (values, { props, setErrors, setSubmitting }) => {
-    console.log(values)
+  handleSubmit: (values, { props: { actions }, setErrors, setSubmitting }) => {
+    actions.groupCard.create(values)
+      .then(() => {
+        setSubmitting(false)
+        actions.groupCardLoad.load()
+      })
+      .catch(errors => {
+        setSubmitting(false)
+        setErrors(transformValidationApi(errors))
+      })
   },
   displayName: 'CreateGroupCard',
 })

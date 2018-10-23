@@ -1,9 +1,13 @@
 import React from 'react'
-import { object } from 'prop-types'
+import { object, string } from 'prop-types'
 import { Card, CardHeader, withStyles } from '@material-ui/core'
 
 const styles = () => ({
-  root: {},
+  root: {
+    minWidth: 300,
+    height: '100%',
+    margin: '0 10px 30px',
+  },
 })
 
 class GroupCard extends React.Component {
@@ -13,13 +17,11 @@ class GroupCard extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, title } = this.props
     return (
-      <div className={classes.root}>
-        <Card>
-          <CardHeader title="Что нужно сделать" />
-        </Card>
-      </div>
+      <Card className={classes.root}>
+        <CardHeader title={title} />
+      </Card>
     )
 
   }
@@ -27,6 +29,7 @@ class GroupCard extends React.Component {
 
 GroupCard.propTypes = {
   classes: object.isRequired,
+  title: string.isRequired,
 }
 
 export default withStyles(styles)(GroupCard)
