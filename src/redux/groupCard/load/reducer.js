@@ -1,15 +1,17 @@
+/* eslint-disable no-underscore-dangle,no-return-assign */
 import {
-  LOAD_GROUP_CARD_FULFILLED,
-  LOAD_GROUP_CARD_PENDING,
-  LOAD_GROUP_CARD_REJECTED,
-
+  CURRENT_TASK,
   DELETE_GROUP_CARD_FULFILLED,
   DELETE_GROUP_CARD_PENDING,
   DELETE_GROUP_CARD_REJECTED,
+  LOAD_GROUP_CARD_FULFILLED,
+  LOAD_GROUP_CARD_PENDING,
+  LOAD_GROUP_CARD_REJECTED,
 } from './action'
 
 const initialState = {
-  groupCard: null,
+  groupCard: [],
+  currentTask: [],
   messages: null,
   errors: [],
   error: false,
@@ -48,6 +50,18 @@ const loadReducer = (state = initialState, { type, payload }) => {
         loading: false,
         messages: payload,
       }
+
+    case CURRENT_TASK: {
+      let task
+      state.groupCard.groupCard.forEach(groups =>
+        groups.tasks.forEach(group => (group._id === payload ? task = group : null)))
+
+      return {
+        ...state,
+        loading: false,
+        currentTask: task,
+      }
+    }
 
     default:
       return state

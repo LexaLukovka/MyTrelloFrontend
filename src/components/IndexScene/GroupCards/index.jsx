@@ -4,6 +4,7 @@ import { array, object } from 'prop-types'
 import { withStyles } from '@material-ui/core'
 import GroupCard from 'components/IndexScene/GroupCards/GroupCard'
 import AddGroupCard from 'components/IndexScene/GroupCards/AddGroupCard'
+import isEmpty from 'lodash/isEmpty'
 
 const styles = () => ({
   root: {
@@ -15,7 +16,15 @@ const styles = () => ({
 
 const GroupCards = ({ classes, groupCard }) =>
   <div className={classes.root}>
-    {groupCard.map(group => <GroupCard key={group._id} title={group.title} tasks={group.tasks} groupId={group._id} />)}
+    {!isEmpty(groupCard) &&
+    groupCard.map(group =>
+      <GroupCard
+        key={group._id}
+        title={group.title}
+        tasks={group.tasks}
+        groupId={group._id}
+      />)
+    }
     <AddGroupCard />
   </div>
 

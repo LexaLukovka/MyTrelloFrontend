@@ -57,7 +57,7 @@ class GroupCard extends React.Component {
             :
             <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
           }
-          {tasks.map(task => <Task key={task._id} task={task} />)}
+          {tasks.map(task => <Task key={task._id} groupId={groupId} task={task} />)}
         </CardContent>
       </Card>
     )
