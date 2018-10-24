@@ -23,9 +23,9 @@ const styles = () => ({
 })
 
 class Task extends React.Component {
-  handleClickOpen = (taskId) => {
+  handleClickOpen = (groupId, taskId) => {
     const { actions } = this.props
-    actions.group.currentTask(taskId)
+    actions.group.currentTask({ groupId, taskId })
     actions.task.openUpdateTask()
   }
 
@@ -41,12 +41,12 @@ class Task extends React.Component {
       <Card className={classes.root}>
         <Typography className={classes.task}>{task.task}</Typography>
         <IconButton
-          onClick={() => this.handleClickOpen(task._id)}
+          onClick={() => this.handleClickOpen(groupId, task._id)}
           className={classes.icon}
         >
           <CreateIcon />
         </IconButton>
-        <DialogTask task={task.task} groupId={groupId} isOpen={openDialog} onClose={this.handleClose} />
+        <DialogTask task={task.task} isOpen={openDialog} onClose={this.handleClose} />
       </Card>
     )
   }

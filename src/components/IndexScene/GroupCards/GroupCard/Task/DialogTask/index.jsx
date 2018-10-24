@@ -16,7 +16,7 @@ const styles = () => ({
   },
 })
 
-const DialogTask = ({ classes, task, isOpen, onClose, groupId, setFieldValue }) =>
+const DialogTask = ({ classes, task, isOpen, onClose }) =>
   <Dialog
     open={isOpen}
     onClose={onClose}
@@ -31,11 +31,7 @@ const DialogTask = ({ classes, task, isOpen, onClose, groupId, setFieldValue }) 
         />
       </DialogContent>
       <DialogActions className={classes.flex}>
-        <Button
-          type="submit"
-          color="primary"
-          onClick={() => setFieldValue('groupId', groupId)}
-        >
+        <Button type="submit" color="primary">
           Сохранить
         </Button>
         <Button onClick={onClose} autoFocus>
@@ -51,8 +47,6 @@ DialogTask.propTypes = {
   task: string.isRequired,
   isOpen: bool.isRequired,
   onClose: func.isRequired,
-  setFieldValue: func.isRequired,
-  groupId: string.isRequired,
 }
 
 

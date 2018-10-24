@@ -52,13 +52,17 @@ const loadReducer = (state = initialState, { type, payload }) => {
       }
 
     case CURRENT_TASK: {
+      let groupCard
+      state.groupCard.groupCard.forEach(groups => (groups._id === payload.groupId ? groupCard = groups : null))
+
       let task
       state.groupCard.groupCard.forEach(groups =>
-        groups.tasks.forEach(group => (group._id === payload ? task = group : null)))
+        groups.tasks.forEach(group => (group._id === payload.taskId ? task = group : null)))
 
       return {
         ...state,
         loading: false,
+        currentGroup: groupCard,
         currentTask: task,
       }
     }

@@ -2,7 +2,6 @@
 import React from 'react'
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
-import transformValidationApi from 'utils/transformValidationApi'
 
 const formik = withFormik({
   enableReinitialize: true,
@@ -17,20 +16,17 @@ const formik = withFormik({
     task: currentTask.task || '',
   }),
 
-  handleSubmit: (values, { props: { actions, currentTask }, setSubmitting, setErrors }) => {
+  handleSubmit: (values, { props: { actions, currentGroup, currentTask }, setSubmitting }) => {
     const taskId = currentTask._id
+    const groupId = currentGroup._id
     const task = values.task
-    const groupId = values.groupId
+
 
     actions.task.update({ taskId, groupId, task })
       .then(() => {
         setSubmitting(false)
-        actions.task.closeUpdateTask()
-        actions.groupCardLoad.load()
-      })
-      .catch(errors => {
-        setSubmitting(false)
-        setErrors(transformValidationApi(errors))
+        actions.taskOpen.closeUpdateTask()
+        actions.group.load()
       })
   },
 
