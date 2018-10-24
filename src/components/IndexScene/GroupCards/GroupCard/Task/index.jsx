@@ -26,7 +26,7 @@ class Task extends React.Component {
   handleClickOpen = (groupId, taskId) => {
     const { actions } = this.props
     actions.group.currentTask({ groupId, taskId })
-    actions.task.openUpdateTask()
+    actions.task.openUpdateTask(taskId)
   }
 
   handleClose = () => {
@@ -46,7 +46,7 @@ class Task extends React.Component {
         >
           <CreateIcon />
         </IconButton>
-        <DialogTask task={task.task} isOpen={openDialog} onClose={this.handleClose} />
+        <DialogTask task={task.task} isOpen={openDialog === task._id} onClose={this.handleClose} />
       </Card>
     )
   }

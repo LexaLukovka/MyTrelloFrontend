@@ -1,22 +1,22 @@
 import { CLOSE_UPDATE_TASK, OPEN_UPDATE_TASK } from './action'
 
 const initialState = {
-  openDialog: false,
+  openDialog: null,
 }
 
-const openUpdateReducer = (state = initialState, { type }) => {
+const openUpdateReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case OPEN_UPDATE_TASK: {
       return {
         ...state,
-        openDialog: true,
+        openDialog: payload,
       }
     }
 
     case CLOSE_UPDATE_TASK:
       return {
         ...state,
-        openDialog: false,
+        openDialog: null,
       }
 
     default: {
