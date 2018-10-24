@@ -8,7 +8,7 @@ const FormikText = ({ field, form, ...props }) =>
     {...field}
     fullWidth
     margin="dense"
-    style={{ padding: '0 20px' }}
+    style={{ padding: '0 10px' }}
     error={(form.submitCount > 0) && !!form.errors[field.name]}
     helperText={(form.submitCount > 0) && form.errors[field.name]}
   />

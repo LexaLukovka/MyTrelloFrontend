@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react'
-import { bool, object, string } from 'prop-types'
-import { Card, IconButton, Typography, withStyles } from '@material-ui/core'
-import CreateIcon from 'mdi-react/CreateIcon'
-import DialogTask from './DialogTask'
+import { object, string } from 'prop-types'
+import { Card, withStyles } from '@material-ui/core'
+import ViewTask from './ViewTask'
+import TaskForm from './TaskForm'
 import connector from './connector'
 
 const styles = () => ({
@@ -13,25 +13,24 @@ const styles = () => ({
     padding: '5px 20px',
     margin: '10px 0',
   },
-  task: {
-    alignSelf: 'center',
-  },
-  icon: {
-    width: 32,
-    height: 32,
-  },
 })
 
 class Task extends React.Component {
   handleClickOpen = (groupId, taskId) => {
     const { actions } = this.props
     actions.group.currentTask({ groupId, taskId })
-    actions.task.openUpdateTask(taskId)
+    actions.taskOpen.openUpdateTask(taskId)
   }
 
   handleClose = () => {
     const { actions } = this.props
-    actions.task.closeUpdateTask()
+    actions.taskOpen.closeUpdateTask()
+  }
+
+  handleDelete = async (groupId, taskId) => {
+    const { actions } = this.props
+    await actions.task.deleteTask(groupId, taskId)
+    actions.taskOpen.closeUpdateTask()
   }
 
   render() {
@@ -39,25 +38,34 @@ class Task extends React.Component {
 
     return (
       <Card className={classes.root}>
-        <Typography className={classes.task}>{task.task}</Typography>
-        <IconButton
-          onClick={() => this.handleClickOpen(groupId, task._id)}
-          className={classes.icon}
-        >
-          <CreateIcon />
-        </IconButton>
-        <DialogTask task={task.task} isOpen={openDialog === task._id} onClose={this.handleClose} />
+        {
+          task._id === openDialog ?
+            <TaskForm
+              onClose={this.handleClose}
+              onDelete={() => this.handleDelete(groupId, task._id)}
+            />
+            :
+            <ViewTask
+              task={task}
+              clickOpen={() => this.handleClickOpen(groupId, task._id)}
+            />
+        }
       </Card>
     )
   }
 }
 
+
 Task.propTypes = {
   classes: object.isRequired,
   actions: object.isRequired,
   task: object.isRequired,
-  openDialog: bool.isRequired,
+  openDialog: string,
   groupId: string.isRequired,
+}
+
+Task.defaultProps = {
+  openDialog: null,
 }
 
 export default withStyles(styles)(connector(Task))
