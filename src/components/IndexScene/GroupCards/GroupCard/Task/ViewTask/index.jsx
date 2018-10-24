@@ -4,7 +4,12 @@ import { IconButton, Typography, withStyles } from '@material-ui/core'
 import CreateIcon from 'mdi-react/CreateIcon'
 
 const styles = () => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
   task: {
+    width: '100%',
     alignSelf: 'center',
   },
   icon: {
@@ -13,18 +18,19 @@ const styles = () => ({
   },
 })
 
-const ViewTask = ({ classes, task, clickOpen }) =>
-  <React.Fragment>
-    <Typography className={classes.task}>{task.task}</Typography>
-    <IconButton onClick={clickOpen} className={classes.icon}>
+const ViewTask = ({ classes, task, clickOpenRefactor, clickOpenDetails }) =>
+  <div className={classes.root}>
+    <Typography onClick={clickOpenDetails} className={classes.task}>{task.task}</Typography>
+    <IconButton onClick={clickOpenRefactor} className={classes.icon}>
       <CreateIcon />
     </IconButton>
-  </React.Fragment>
+  </div>
 
 ViewTask.propTypes = {
   classes: object.isRequired,
   task: object.isRequired,
-  clickOpen: func.isRequired,
+  clickOpenRefactor: func.isRequired,
+  clickOpenDetails: func.isRequired,
 }
 
 export default withStyles(styles)(ViewTask)

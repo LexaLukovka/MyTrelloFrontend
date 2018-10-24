@@ -12,6 +12,7 @@ import {
 const initialState = {
   groupCard: [],
   currentTask: [],
+  currentGroup: [],
   messages: null,
   errors: [],
   error: false,
@@ -43,6 +44,7 @@ const loadReducer = (state = initialState, { type, payload }) => {
         loading: false,
         groupCard: payload,
       }
+
 
     case DELETE_GROUP_CARD_FULFILLED:
       return {

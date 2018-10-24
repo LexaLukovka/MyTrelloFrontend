@@ -1,7 +1,7 @@
 import { CLOSE_UPDATE_TASK, OPEN_UPDATE_TASK } from './action'
 
 const initialState = {
-  openDialog: null,
+  openRefactor: null,
 }
 
 const openUpdateReducer = (state = initialState, { type, payload }) => {
@@ -9,14 +9,14 @@ const openUpdateReducer = (state = initialState, { type, payload }) => {
     case OPEN_UPDATE_TASK: {
       return {
         ...state,
-        openDialog: payload,
+        openRefactor: payload,
       }
     }
 
     case CLOSE_UPDATE_TASK:
       return {
         ...state,
-        openDialog: null,
+        openRefactor: null,
       }
 
     default: {

@@ -1,15 +1,14 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as group from 'src/redux/groupCard/load/action'
-import taskOpen from 'src/redux/task/openDetails/action'
-import taskOpenUpdate from 'src/redux/task/openUpdate/action'
-import task from 'src/redux/task/delete/action'
+import * as task from 'src/redux/task/update/action'
+import taskOpen from 'src/redux/task/openUpdate/action'
+import dueDates from 'src/redux/task/dueDates/action'
 
 const initMapStateToProps = store => ({
-  openRefactor: store.task.openUpdateReducer.openRefactor,
-  openDetails: store.task.openDetailsReducer.openDetails,
   currentTask: store.groupCard.loadReducer.currentTask,
   currentGroup: store.groupCard.loadReducer.currentGroup,
+  openDueDates: store.task.openDueDatesReducer.openDueDates,
 })
 
 const initMapDispatchToProps = dispatch => ({
@@ -17,7 +16,7 @@ const initMapDispatchToProps = dispatch => ({
     group: bindActionCreators(group, dispatch),
     task: bindActionCreators(task, dispatch),
     taskOpen: bindActionCreators(taskOpen, dispatch),
-    taskOpenUpdate: bindActionCreators(taskOpenUpdate, dispatch),
+    dueDates: bindActionCreators(dueDates, dispatch),
   },
 })
 

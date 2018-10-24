@@ -8,7 +8,6 @@ import { Field, Form } from 'formik'
 import formik from './formik'
 
 import connector from './connector'
-import ClearIcon from 'mdi-react/ClearIcon'
 
 const styles = theme => ({
   root: {
@@ -28,7 +27,7 @@ const styles = theme => ({
   },
 })
 
-const TaskForm = ({ classes, onClose, onDelete }) =>
+const TaskUpdateForm = ({ classes, onCloseReafactor, onDelete }) =>
   <Form>
     <div className={classes.root}>
       <Field
@@ -44,16 +43,16 @@ const TaskForm = ({ classes, onClose, onDelete }) =>
       <Button type="submit" color="primary">
         Сохранить
       </Button>
-      <IconButton onClick={onClose}>
-        <ClearIcon />
-      </IconButton>
+      <Button onClick={onCloseReafactor}>
+        Отмена
+      </Button>
     </div>
   </Form>
 
-TaskForm.propTypes = {
+TaskUpdateForm.propTypes = {
   classes: object.isRequired,
   onDelete: func.isRequired,
-  onClose: func.isRequired,
+  onCloseReafactor: func.isRequired,
 }
 
-export default withStyles(styles)(connector(formik(TaskForm)))
+export default withStyles(styles)(connector(formik(TaskUpdateForm)))
