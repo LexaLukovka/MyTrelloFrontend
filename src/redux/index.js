@@ -6,6 +6,7 @@ import groupCard from './groupCard'
 import task from './task'
 
 import authReducer from './auth/reducer'
+import dialogAuthReducer from './dialogAuth/reducer'
 import layoutReducer from './layout/reducer'
 import headerReducer from './header/reducer'
 import alertReducer from './alert/reducer'
@@ -20,6 +21,7 @@ const reducers = combineReducers({
   groupCard,
   task,
   authReducer,
+  dialogAuthReducer,
   layoutReducer,
   headerReducer,
   alertReducer,

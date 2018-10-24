@@ -7,6 +7,9 @@ import ViewTask from './ViewTask'
 import DialogTask from './DialogTask'
 import TaskUpdateForm from './TaskUpdateForm'
 
+import DialogLogin from 'components/@auth/Dialog/DialogLogin'
+import DialogRegister from 'components/@auth/Dialog/DialogRegister'
+
 import connector from './connector'
 
 const styles = () => ({
@@ -18,10 +21,14 @@ const styles = () => ({
 
 class Task extends React.Component {
   handleOpenDetails = (groupId, taskId) => {
-    const { actions } = this.props
-    actions.group.currentTask({ groupId, taskId })
-    actions.taskOpen.openDetailsTask(taskId)
-    actions.taskOpenUpdate.closeUpdateTask()
+    const { actions, auth } = this.props
+    if (auth.user) {
+      actions.group.currentTask({ groupId, taskId })
+      actions.taskOpen.openDetailsTask(taskId)
+      actions.taskOpenUpdate.closeUpdateTask()
+    } else {
+      actions.dialog.openDialogLogin()
+    }
   }
 
   handleCloseDetails = () => {
@@ -47,29 +54,38 @@ class Task extends React.Component {
   }
 
   render() {
-    const { classes, task, groupId, openRefactor, openDetails } = this.props
+    const { classes, auth: { user }, task, groupId, openRefactor, openDetails } = this.props
 
     return (
       <Card className={classes.root}>
         {
           task._id === openRefactor ?
             <TaskUpdateForm
+              user={user}
               onCloseReafactor={this.handleCloseRefactor}
               onDelete={() => this.handleDelete(groupId, task._id)}
             />
             :
             <ViewTask
+              user={user}
               task={task}
               clickOpenRefactor={() => this.handleOpenRefactor(groupId, task._id)}
               clickOpenDetails={() => this.handleOpenDetails(groupId, task._id)}
             />
         }
-        <DialogTask
-          task={task}
-          isOpen={task._id === openDetails}
-          onClose={this.handleCloseDetails}
-          onDelete={() => this.handleDelete(groupId, task._id)}
-        />
+        {user ?
+          <DialogTask
+            task={task}
+            isOpen={task._id === openDetails}
+            onClose={this.handleCloseDetails}
+            onDelete={() => this.handleDelete(groupId, task._id)}
+          />
+          :
+          <React.Fragment>
+            <DialogLogin />
+            <DialogRegister />
+          </React.Fragment>
+        }
       </Card>
     )
   }
@@ -78,6 +94,7 @@ class Task extends React.Component {
 
 Task.propTypes = {
   classes: object.isRequired,
+  auth: object.isRequired,
   actions: object.isRequired,
   task: object.isRequired,
   openRefactor: string,

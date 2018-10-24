@@ -23,6 +23,7 @@ const formik = withFormik({
     actions.auth.login(values)
       .then(() => {
         setSubmitting(false)
+        actions.dialog.closeDialogLogin()
         history.push('/')
       })
       .catch(errors => {

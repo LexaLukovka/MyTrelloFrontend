@@ -14,7 +14,7 @@ const styles = () => ({
     maxWidth: 400,
     height: '100%',
     margin: '0 10px 30px',
-    background: 'rgba(225, 225, 225, 0.7)',
+    background: 'rgba(225, 225, 225, 0.8)',
   },
   title: {
     paddingTop: '8px',
@@ -42,20 +42,25 @@ class GroupCard extends React.Component {
   }
 
   render() {
-    const { classes, title, tasks, groupId, openTask: { openId } } = this.props
+    const { classes, user, title, tasks, groupId, openTask: { openId } } = this.props
 
     return (
       <Card className={classes.root}>
         <CardHeader
           className={classes.title}
           title={<Typography variant="subheading">{title}</Typography>}
-          action={<IconButton onClick={() => this.handleDeleteGroupCard(groupId)}><DeleteIcon /></IconButton>}
+          action={user && <IconButton onClick={() => this.handleDeleteGroupCard(groupId)}><DeleteIcon /></IconButton>}
         />
         <CardContent className={classes.content}>
-          {openId === groupId ?
-            <CreateGroupTask groupId={groupId} closeInput={this.handleCloseInput} />
-            :
-            <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
+          {user &&
+          <React.Fragment>
+            {
+              openId === groupId ?
+                <CreateGroupTask groupId={groupId} closeInput={this.handleCloseInput} />
+                :
+                <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
+            }
+          </React.Fragment>
           }
           {tasks.map(task => <Task key={task._id} groupId={groupId} task={task} />)}
         </CardContent>
@@ -66,11 +71,16 @@ class GroupCard extends React.Component {
 
 GroupCard.propTypes = {
   classes: object.isRequired,
+  user: object,
   actions: object.isRequired,
   title: string.isRequired,
   groupId: string.isRequired,
   openTask: object.isRequired,
   tasks: array.isRequired,
+}
+
+GroupCard.defaultProps = {
+  user: null,
 }
 
 export default withStyles(styles)(connector(GroupCard))

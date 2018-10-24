@@ -27,12 +27,12 @@ class IndexScene extends React.Component {
   }
 
   render() {
-    const { classes, loading, groupCard: { groupCard } } = this.props
+    const { classes, auth: { user }, loading, groupCard: { groupCard } } = this.props
     if (loading) return <Loading />
 
     return (
       <div className={classes.root}>
-        <GroupCards groupCard={groupCard} />
+        <GroupCards user={user} groupCard={groupCard} />
       </div>
     )
   }
@@ -40,6 +40,7 @@ class IndexScene extends React.Component {
 
 IndexScene.propTypes = {
   classes: object.isRequired,
+  auth: object.isRequired,
   actions: object.isRequired,
   loading: bool.isRequired,
   groupCard: object.isRequired,

@@ -5,6 +5,7 @@ import * as groupCard from 'src/redux/groupCard/load/action'
 
 const initMapStateToProps = store => ({
   ...store.groupCard.loadReducer,
+  auth: store.authReducer,
   layout: store.layoutReducer,
 })
 
