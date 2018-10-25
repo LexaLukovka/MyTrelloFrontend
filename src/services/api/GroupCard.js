@@ -10,6 +10,10 @@ class GroupCard {
     return Http.post('/groupCard', title)
   }
 
+  save(groupCard) {
+    return Http.put('/groupCard', groupCard)
+  }
+
   delete(groupId) {
     return Http.delete(`/groupCard/${groupId}`)
   }

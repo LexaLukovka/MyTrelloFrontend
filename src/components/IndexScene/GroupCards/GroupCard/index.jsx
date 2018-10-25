@@ -2,10 +2,14 @@
 import React from 'react'
 import { array, object, string } from 'prop-types'
 import { Card, CardContent, CardHeader, IconButton, Typography, withStyles } from '@material-ui/core'
+
+import { Droppable } from 'react-beautiful-dnd'
+
 import DeleteIcon from 'mdi-react/DeleteIcon'
 import CreateGroupTask from './CreateGroupTask'
 import ClickAddTask from './ClickAddTask'
 import Task from './Task'
+
 import connector from './connector'
 
 const styles = () => ({
@@ -62,7 +66,23 @@ class GroupCard extends React.Component {
             }
           </React.Fragment>
           }
-          {tasks.map(task => <Task key={task._id} groupId={groupId} task={task} />)}
+          <Droppable droppableId={groupId}>
+            {(provided) =>
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {tasks.map((task, index) =>
+                  <Task
+                    key={task._id}
+                    index={index}
+                    groupId={groupId}
+                    task={task}
+                  />)}
+                {provided.placeholder}
+              </div>
+            }
+          </Droppable>
         </CardContent>
       </Card>
     )

@@ -1,7 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react'
-import { object, string } from 'prop-types'
+import { number, object, string } from 'prop-types'
 import { Card, withStyles } from '@material-ui/core'
+
+import { Draggable } from 'react-beautiful-dnd'
 
 import ViewTask from './ViewTask'
 import DialogTask from './DialogTask'
@@ -54,39 +56,49 @@ class Task extends React.Component {
   }
 
   render() {
-    const { classes, auth: { user }, task, groupId, openRefactor, openDetails } = this.props
+    const { classes, auth: { user }, groupId, task, index, openRefactor, openDetails } = this.props
 
     return (
-      <Card className={classes.root}>
-        {
-          task._id === openRefactor ?
-            <TaskUpdateForm
-              user={user}
-              onCloseReafactor={this.handleCloseRefactor}
-              onDelete={() => this.handleDelete(groupId, task._id)}
-            />
-            :
-            <ViewTask
-              user={user}
-              task={task}
-              clickOpenRefactor={() => this.handleOpenRefactor(groupId, task._id)}
-              clickOpenDetails={() => this.handleOpenDetails(groupId, task._id)}
-            />
+      <Draggable draggableId={task._id} index={index}>
+        {(provided) =>
+          <div
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+          >
+            <Card className={classes.root}>
+              {
+                task._id === openRefactor ?
+                  <TaskUpdateForm
+                    user={user}
+                    onCloseReafactor={this.handleCloseRefactor}
+                    onDelete={() => this.handleDelete(groupId, task._id)}
+                  />
+                  :
+                  <ViewTask
+                    user={user}
+                    task={task}
+                    clickOpenRefactor={() => this.handleOpenRefactor(groupId, task._id)}
+                    clickOpenDetails={() => this.handleOpenDetails(groupId, task._id)}
+                  />
+              }
+              {user ?
+                <DialogTask
+                  task={task}
+                  isOpen={task._id === openDetails}
+                  onClose={this.handleCloseDetails}
+                  onDelete={() => this.handleDelete(groupId, task._id)}
+                />
+                :
+                <React.Fragment>
+                  <DialogLogin />
+                  <DialogRegister />
+                </React.Fragment>
+              }
+            </Card>
+          </div>
         }
-        {user ?
-          <DialogTask
-            task={task}
-            isOpen={task._id === openDetails}
-            onClose={this.handleCloseDetails}
-            onDelete={() => this.handleDelete(groupId, task._id)}
-          />
-          :
-          <React.Fragment>
-            <DialogLogin />
-            <DialogRegister />
-          </React.Fragment>
-        }
-      </Card>
+      </Draggable>
     )
   }
 }
@@ -96,10 +108,11 @@ Task.propTypes = {
   classes: object.isRequired,
   auth: object.isRequired,
   actions: object.isRequired,
+  groupId: string.isRequired,
   task: object.isRequired,
+  index: number.isRequired,
   openRefactor: string,
   openDetails: string,
-  groupId: string.isRequired,
 }
 
 Task.defaultProps = {
