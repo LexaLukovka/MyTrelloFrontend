@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react'
-import { array, object, string } from 'prop-types'
+import { array, number, object, string } from 'prop-types'
 import { Card, CardContent, CardHeader, IconButton, Typography, withStyles } from '@material-ui/core'
 
-import { Droppable } from 'react-beautiful-dnd'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
 
 import DeleteIcon from 'mdi-react/DeleteIcon'
 import CreateGroupTask from './CreateGroupTask'
@@ -46,45 +46,54 @@ class GroupCard extends React.Component {
   }
 
   render() {
-    const { classes, user, title, tasks, groupId, openTask: { openId } } = this.props
+    const { classes, user, title, tasks, groupId, index, openTask: { openId } } = this.props
 
     return (
-      <Card className={classes.root}>
-        <CardHeader
-          className={classes.title}
-          title={<Typography variant="subheading">{title}</Typography>}
-          action={user && <IconButton onClick={() => this.handleDeleteGroupCard(groupId)}><DeleteIcon /></IconButton>}
-        />
-        <CardContent className={classes.content}>
-          {user &&
-          <React.Fragment>
-            {
-              openId === groupId ?
-                <CreateGroupTask groupId={groupId} closeInput={this.handleCloseInput} />
-                :
-                <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
-            }
-          </React.Fragment>
-          }
-          <Droppable droppableId={groupId}>
-            {(provided) =>
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {tasks.map((task, index) =>
-                  <Task
-                    key={task._id}
-                    index={index}
-                    groupId={groupId}
-                    task={task}
-                  />)}
-                {provided.placeholder}
+      <Draggable draggableId={groupId} index={index}>
+        {(provided) => (
+          <div {...provided.draggableProps} ref={provided.innerRef}>
+            <Card className={classes.root}>
+              <div {...provided.dragHandleProps}>
+                <CardHeader
+                  className={classes.title}
+                  title={<Typography variant="subheading">{title}</Typography>}
+                  action={user &&
+                  <IconButton onClick={() => this.handleDeleteGroupCard(groupId)}><DeleteIcon /></IconButton>}
+                />
               </div>
-            }
-          </Droppable>
-        </CardContent>
-      </Card>
+              <CardContent className={classes.content}>
+                {user &&
+                <React.Fragment>
+                  {
+                    openId === groupId ?
+                      <CreateGroupTask groupId={groupId} closeInput={this.handleCloseInput} />
+                      :
+                      <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
+                  }
+                </React.Fragment>
+                }
+                <Droppable droppableId={groupId} type="task">
+                  {(provideds) => (
+                    <div
+                      ref={provideds.innerRef}
+                      {...provideds.droppableProps}
+                    >
+                      {tasks.map((task, i) =>
+                        <Task
+                          key={task._id}
+                          index={i}
+                          groupId={groupId}
+                          task={task}
+                        />)}
+                      {provideds.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+      </Draggable>
     )
   }
 }
@@ -97,6 +106,7 @@ GroupCard.propTypes = {
   groupId: string.isRequired,
   openTask: object.isRequired,
   tasks: array.isRequired,
+  index: number.isRequired,
 }
 
 GroupCard.defaultProps = {

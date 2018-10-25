@@ -3,7 +3,7 @@ import React from 'react'
 import { array, object } from 'prop-types'
 import { withStyles } from '@material-ui/core'
 
-import { DragDropContext } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
 import GroupCard from 'components/IndexScene/GroupCards/GroupCard'
 import AddGroupCard from 'components/IndexScene/GroupCards/AddGroupCard'
@@ -14,7 +14,6 @@ import connector from './connector'
 const styles = () => ({
   root: {
     display: 'flex',
-    justifyContent: 'center',
     // flexWrap: 'wrap',
   },
 })
@@ -22,7 +21,7 @@ const styles = () => ({
 class GroupCards extends React.Component {
   onDragEnd = async (result) => {
     const { actions, groupCard } = this.props
-    const { destination, source, draggableId } = result
+    const { destination, source, draggableId, type } = result
 
     if (!destination) return
 
@@ -30,6 +29,18 @@ class GroupCards extends React.Component {
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
+      return
+    }
+
+    if (type === 'groupCard') {
+      const newgroupCard = groupCard
+
+      let currentGroup = {}
+      groupCard.filter(group => group._id === draggableId ? currentGroup = group : currentGroup)
+
+      newgroupCard.splice(source.index, 1)
+      newgroupCard.splice(destination.index, 0, currentGroup)
+
       return
     }
 
@@ -65,16 +76,32 @@ class GroupCards extends React.Component {
     return (
       <div className={classes.root}>
         <DragDropContext onDragEnd={this.onDragEnd}>
-          {!isEmpty(groupCard) &&
-          groupCard.map(group =>
-            <GroupCard
-              key={group._id}
-              user={user}
-              title={group.title}
-              tasks={group.tasks}
-              groupId={group._id}
-            />)
-          }
+          <Droppable
+            droppableId="all-groupCard"
+            direction="horizontal"
+            type="groupCard"
+          >
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className={classes.root}
+              >
+                {!isEmpty(groupCard) &&
+                groupCard.map((group, index) =>
+                  <GroupCard
+                    key={group._id}
+                    index={index}
+                    user={user}
+                    title={group.title}
+                    tasks={group.tasks}
+                    groupId={group._id}
+                  />)
+                }
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
         </DragDropContext>
         {user &&
         <AddGroupCard />

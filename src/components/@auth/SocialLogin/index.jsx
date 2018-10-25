@@ -55,8 +55,8 @@ class SocialLogin extends Component {
     return (
       <div className={classes.root}>
         <FacebookLogin
-          appId="2175525285996959"
-          fields="name,email,picture"
+          appId="737379293302751"
+          fields="name,email"
           onClick={this.componentClicked}
           callback={this.loginFacebook}
           render={props => (
@@ -73,8 +73,8 @@ class SocialLogin extends Component {
           )}
         />
         <GoogleLogin
-          clientId="860110060796-1oa17isdultt097medmjdslaovs204o9.apps.googleusercontent.com"
-          fields="name,email,picture"
+          clientId="15309820637-pgbp42f56ft65q8cabp9jjaq5gsvnj7b.apps.googleusercontent.com"
+          fields="name,email"
           render={props => (
             <Button
               onClick={props.onClick}
