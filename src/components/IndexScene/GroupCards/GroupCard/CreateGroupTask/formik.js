@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle,prefer-destructuring */
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
 import transformValidationApi from 'utils/transformValidationApi'
@@ -12,8 +13,11 @@ const formik = withFormik({
     task: '',
   }),
 
-  handleSubmit: (values, { props: { actions }, setErrors, setSubmitting }) => {
-    actions.task.create(values)
+  handleSubmit: (values, { props: { actions, currentGroup }, setErrors, setSubmitting }) => {
+    const groupId = currentGroup._id
+    const task = values.task
+
+    actions.task.create({ groupId, task })
       .then(() => {
         setSubmitting(false)
         actions.openTask.closeOneTask()

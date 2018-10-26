@@ -1,12 +1,12 @@
 import React from 'react'
-import { func, object, string } from 'prop-types'
+import { func, object } from 'prop-types'
 import { Card, withStyles } from '@material-ui/core'
 
 import { Field, Form } from 'formik'
 import FormikText from './formik/FormikText'
-import formik from './formik/formik'
+import formik from './formik'
 
-import ActionsButton from './ActionsButton'
+import ActionsButton from 'components/ActionsButton'
 
 import connector from './connector'
 
@@ -16,23 +16,21 @@ const styles = {
   },
 }
 
-const CreateGroupTask = ({ classes, closeInput, setFieldValue, groupId }) =>
+const CreateGroupTask = ({ classes, closeInput }) =>
   <Form>
     <Card className={classes.root}>
       <Field
-        component={FormikText}
         name="task"
+        component={FormikText}
         placeholder="Введите таску"
       />
-      <ActionsButton setFieldValue={setFieldValue} groupId={groupId} closeInput={closeInput} />
+      <ActionsButton closeInput={closeInput} />
     </Card>
   </Form>
 
 CreateGroupTask.propTypes = {
   classes: object.isRequired,
   closeInput: func.isRequired,
-  setFieldValue: func.isRequired,
-  groupId: string.isRequired,
 }
 
 const style = withStyles(styles)(CreateGroupTask)

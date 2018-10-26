@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle,no-return-assign */
 import {
+  CURRENT_GROUP,
   CURRENT_TASK,
   LOAD_GROUP_CARD_FULFILLED,
   LOAD_GROUP_CARD_PENDING,
@@ -46,6 +47,17 @@ const loadReducer = (state = initialState, { type, payload }) => {
         groupCard: payload,
       }
 
+
+    case CURRENT_GROUP: {
+      let groupCard
+      state.groupCard.groupCard.forEach(groups => (groups._id === payload ? groupCard = groups : null))
+
+      return {
+        ...state,
+        loading: false,
+        currentGroup: groupCard,
+      }
+    }
 
     case CURRENT_TASK: {
       let groupCard

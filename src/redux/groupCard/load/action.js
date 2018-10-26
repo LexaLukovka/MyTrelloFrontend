@@ -11,6 +11,7 @@ export const SAVE_GROUP_CARD_REJECTED = 'SAVE_GROUP_CARD_REJECTED'
 export const SAVE_GROUP_CARD_FULFILLED = 'SAVE_GROUP_CARD_FULFILLED'
 
 
+export const CURRENT_GROUP = 'CURRENT_GROUP'
 export const CURRENT_TASK = 'CURRENT_TASK'
 
 export const load = () => ({
@@ -24,6 +25,17 @@ export const save = groupCard => async dispatch => {
     payload: GroupCard.save(groupCard),
   })
 }
+
+export const update = groupCard => ({
+  type: LOAD_GROUP_CARD,
+  payload: GroupCard.update(groupCard),
+})
+
+
+export const currentGroup = (groupId) => ({
+  type: CURRENT_GROUP,
+  payload: groupId,
+})
 
 
 export const currentTask = (taskId) => ({

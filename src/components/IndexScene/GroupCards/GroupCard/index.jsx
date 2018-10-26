@@ -1,11 +1,14 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle  */
 import React from 'react'
 import { array, number, object, string } from 'prop-types'
 import { Card, CardContent, CardHeader, IconButton, Typography, withStyles } from '@material-ui/core'
 
+import DeleteIcon from 'mdi-react/DeleteIcon'
+import CreateIcon from 'mdi-react/CreateIcon'
+
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 
-import DeleteIcon from 'mdi-react/DeleteIcon'
+import EditGroupCard from './EditGroupCard'
 import CreateGroupTask from './CreateGroupTask'
 import ClickAddTask from './ClickAddTask'
 import Task from './Task'
@@ -16,7 +19,6 @@ const styles = () => ({
   root: {
     minWidth: 300,
     maxWidth: 400,
-    height: '100%',
     margin: '0 10px 30px',
     background: 'rgba(225, 225, 225, 0.8)',
   },
@@ -30,8 +32,25 @@ const styles = () => ({
 })
 
 class GroupCard extends React.Component {
+  handleEditGroupCard = (groupId) => {
+    const { actions } = this.props
+    actions.group.currentGroup(groupId)
+    actions.groupEdit.openEdit(groupId)
+  }
+
+  handleCloseEdit = () => {
+    const { actions } = this.props
+    actions.groupEdit.closeEdit()
+  }
+
+  handleDeleteGroupCard = (groupId) => {
+    const { actions } = this.props
+    actions.groupDelete.deleteGroup(groupId)
+  }
+
   handleOpenInput = (groupId) => {
     const { actions } = this.props
+    actions.group.currentGroup(groupId)
     actions.task.openOneTask(groupId)
   }
 
@@ -40,13 +59,8 @@ class GroupCard extends React.Component {
     actions.task.closeOneTask()
   }
 
-  handleDeleteGroupCard = (groupId) => {
-    const { actions } = this.props
-    actions.group.deleteGroup(groupId)
-  }
-
   render() {
-    const { classes, user, title, tasks, groupId, index, openTask: { openId } } = this.props
+    const { classes, user, title, tasks, groupId, index, openEdit, openTask: { openId } } = this.props
 
     return (
       <Draggable draggableId={groupId} index={index}>
@@ -54,19 +68,30 @@ class GroupCard extends React.Component {
           <div {...provided.draggableProps} ref={provided.innerRef}>
             <Card className={classes.root}>
               <div {...provided.dragHandleProps}>
-                <CardHeader
-                  className={classes.title}
-                  title={<Typography variant="subheading">{title}</Typography>}
-                  action={user &&
-                  <IconButton onClick={() => this.handleDeleteGroupCard(groupId)}><DeleteIcon /></IconButton>}
-                />
+                {openEdit === groupId ?
+                  <EditGroupCard closeInput={this.handleCloseEdit} />
+                  :
+                  <CardHeader
+                    className={classes.title}
+                    title={<Typography variant="subheading">{title}</Typography>}
+                    action={user &&
+                    <div style={{ paddingTop: 5 }}>
+                      <IconButton onClick={() => this.handleEditGroupCard(groupId)}>
+                        <CreateIcon />
+                      </IconButton>
+                      <IconButton onClick={() => this.handleDeleteGroupCard(groupId)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </div>}
+                  />
+                }
               </div>
               <CardContent className={classes.content}>
                 {user &&
                 <React.Fragment>
                   {
                     openId === groupId ?
-                      <CreateGroupTask groupId={groupId} closeInput={this.handleCloseInput} />
+                      <CreateGroupTask closeInput={this.handleCloseInput} />
                       :
                       <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
                   }
@@ -102,15 +127,17 @@ GroupCard.propTypes = {
   classes: object.isRequired,
   user: object,
   actions: object.isRequired,
-  title: string.isRequired,
   groupId: string.isRequired,
-  openTask: object.isRequired,
+  title: string.isRequired,
   tasks: array.isRequired,
   index: number.isRequired,
+  openEdit: string,
+  openTask: object.isRequired,
 }
 
 GroupCard.defaultProps = {
   user: null,
+  openEdit: null,
 }
 
 export default withStyles(styles)(connector(GroupCard))

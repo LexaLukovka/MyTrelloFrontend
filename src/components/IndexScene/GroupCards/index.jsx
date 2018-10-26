@@ -33,26 +33,35 @@ class GroupCards extends React.Component {
     }
 
     if (type === 'groupCard') {
-      const newgroupCard = groupCard
+      const newGroupCard = groupCard
 
       let currentGroup = {}
-      groupCard.filter(group => group._id === draggableId ? currentGroup = group : currentGroup)
+      groupCard.filter(group => group._id === draggableId && (currentGroup = group))
 
-      newgroupCard.splice(source.index, 1)
-      newgroupCard.splice(destination.index, 0, currentGroup)
+      newGroupCard.splice(source.index, 1)
+      newGroupCard.splice(destination.index, 0, currentGroup)
+
+      console.log(source.index, destination.index)
+
+
+      // const a = newGroupCard.map(group => group.index <= destination.index && group.index - 1)
+
+      // console.log(a, newGroupCard)
+
+      // await actions.groupCard.save({ newGroupCard })
 
       return
     }
 
     let start = {}
-    groupCard.filter(group => group._id === source.droppableId ? start = group : start)
+    groupCard.filter(group => group._id === source.droppableId && (start = group))
 
     let finish = {}
-    groupCard.filter(group => group._id === destination.droppableId ? finish = group : start)
+    groupCard.filter(group => group._id === destination.droppableId && (finish = group))
 
     if (start === finish) {
       let currentTask = {}
-      start.tasks.filter(task => task._id === draggableId ? currentTask = task : currentTask)
+      start.tasks.filter(task => task._id === draggableId && (currentTask = task))
 
       start.tasks.splice(source.index, 1)
       start.tasks.splice(destination.index, 0, currentTask)
@@ -62,7 +71,7 @@ class GroupCards extends React.Component {
     }
 
     let startCurrentTask = {}
-    start.tasks.filter(task => task._id === draggableId ? startCurrentTask = task : startCurrentTask)
+    start.tasks.filter(task => task._id === draggableId && (startCurrentTask = task))
     start.tasks.splice(source.index, 1)
 
     finish.tasks.splice(destination.index, 0, startCurrentTask)
