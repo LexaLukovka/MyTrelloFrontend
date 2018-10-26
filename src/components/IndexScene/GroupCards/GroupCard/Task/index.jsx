@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle, jsx-a11y/mouse-events-have-key-events */
 import React from 'react'
 import { number, object, string } from 'prop-types'
 import { Card, withStyles } from '@material-ui/core'
@@ -8,9 +8,6 @@ import { Draggable } from 'react-beautiful-dnd'
 import ViewTask from './ViewTask'
 import DialogTask from './DialogTask'
 import TaskUpdateForm from './TaskUpdateForm'
-
-import DialogLogin from 'components/@auth/Dialog/DialogLogin'
-import DialogRegister from 'components/@auth/Dialog/DialogRegister'
 
 import connector from './connector'
 
@@ -22,6 +19,22 @@ const styles = () => ({
 })
 
 class Task extends React.Component {
+  state = {
+    visibility: null,
+  }
+
+  onMouseOver = (taskId) => {
+    this.setState({
+      visibility: taskId,
+    })
+  }
+
+  onMouseOut = () => {
+    this.setState({
+      visibility: null,
+    })
+  }
+
   handleOpenDetails = (groupId, taskId) => {
     const { actions, auth } = this.props
     if (auth.user) {
@@ -68,6 +81,7 @@ class Task extends React.Component {
       openDetails,
     } = this.props
 
+    const { visibility } = this.state
     return (
       <Draggable draggableId={task._id} index={index}>
         {(provided) =>
@@ -75,6 +89,8 @@ class Task extends React.Component {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
+            onMouseOver={() => this.onMouseOver(task._id)}
+            onMouseLeave={() => this.onMouseOut(task._id)}
           >
             <Card className={classes.root}>
               {
@@ -88,24 +104,20 @@ class Task extends React.Component {
                   <ViewTask
                     user={user}
                     task={task}
+                    visibility={visibility}
                     clickOpenRefactor={() => this.handleOpenRefactor(groupId, task._id)}
                     clickOpenDetails={() => this.handleOpenDetails(groupId, task._id)}
                   />
               }
-              {user ?
-                <DialogTask
-                  task={task}
-                  currentGroup={currentGroup}
-                  currentTask={currentTask}
-                  isOpen={task._id === openDetails}
-                  onClose={this.handleCloseDetails}
-                  onDelete={() => this.handleDelete(groupId, task._id)}
-                />
-                :
-                <React.Fragment>
-                  <DialogLogin />
-                  <DialogRegister />
-                </React.Fragment>
+              {user &&
+              <DialogTask
+                task={task}
+                currentGroup={currentGroup}
+                currentTask={currentTask}
+                isOpen={task._id === openDetails}
+                onClose={this.handleCloseDetails}
+                onDelete={() => this.handleDelete(groupId, task._id)}
+              />
               }
             </Card>
           </div>
