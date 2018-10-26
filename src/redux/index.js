@@ -2,28 +2,35 @@ import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-import groupCard from './groupCard'
-import task from './task'
-
 import authReducer from './auth/reducer'
 import dialogAuthReducer from './dialogAuth/reducer'
+
+import groupCardReducer from './groupCard/reducer'
+import openEditGroupReducer from './groupCard/openEdit/reducer'
+
+import taskReducer from './task/reducer'
+import openEditTaskReducer from 'src/redux/task/open/reducer'
+
 import layoutReducer from './layout/reducer'
-import headerReducer from './header/reducer'
 import alertReducer from './alert/reducer'
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['authReducer'],
+  whitelist: ['authReducer', 'loadReducer'],
 }
 
 const reducers = combineReducers({
-  groupCard,
-  task,
   authReducer,
   dialogAuthReducer,
+
+  groupCardReducer,
+  openEditGroupReducer,
+
+  taskReducer,
+  openEditTaskReducer,
+
   layoutReducer,
-  headerReducer,
   alertReducer,
 })
 

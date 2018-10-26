@@ -4,7 +4,7 @@ import { Card, withStyles } from '@material-ui/core'
 
 import { Field, Form } from 'formik'
 import FormikText from './formik/FormikText'
-import formik from './formik/formik'
+import formik from './formik'
 
 import ActionsButton from './ActionsButton'
 

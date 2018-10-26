@@ -21,11 +21,12 @@ const formik = withFormik({
     const groupId = currentGroup._id
     const title = values.title
 
-    actions.group.update({ groupId, title })
+    actions.groupCard.update({ groupId, title })
       .then(async () => {
         setSubmitting(false)
         await actions.groupCard.load()
         actions.groupCard.currentGroup(groupId)
+        actions.groupEdit.closeEdit()
       })
       .catch(errors => {
         setSubmitting(false)

@@ -1,18 +1,18 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as create from 'src/redux/task/create/action'
-import * as load from 'src/redux/groupCard/load/action'
-import isOpen from 'src/redux/task/openOne/action'
+import * as task from 'src/redux/task/action'
+import * as groupCard from 'src/redux/groupCard/action'
+import isOpen from 'src/redux/task/open/action'
 
 const initMapStateToProps = store => ({
-  currentGroup: store.groupCard.loadReducer.currentGroup,
+  currentGroup: store.groupCardReducer.currentGroup,
 })
 
 const initMapDispatchToProps = dispatch => ({
   actions: {
-    task: bindActionCreators(create, dispatch),
+    task: bindActionCreators(task, dispatch),
     openTask: bindActionCreators(isOpen, dispatch),
-    groupCard: bindActionCreators(load, dispatch),
+    groupCard: bindActionCreators(groupCard, dispatch),
   },
 })
 

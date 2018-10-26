@@ -40,7 +40,7 @@ class Task extends React.Component {
     if (auth.user) {
       actions.groupCard.currentTask({ groupId, taskId })
       actions.taskOpen.openDetailsTask(taskId)
-      actions.taskOpenUpdate.closeUpdateTask()
+      actions.taskOpen.closeUpdateTask()
     } else {
       actions.dialog.openDialogLogin()
     }
@@ -54,18 +54,18 @@ class Task extends React.Component {
   handleOpenRefactor = (groupId, taskId) => {
     const { actions } = this.props
     actions.groupCard.currentTask({ groupId, taskId })
-    actions.taskOpenUpdate.openUpdateTask(taskId)
+    actions.taskOpen.openUpdateTask(taskId)
   }
 
   handleCloseRefactor = () => {
     const { actions } = this.props
-    actions.taskOpenUpdate.closeUpdateTask()
+    actions.taskOpen.closeUpdateTask()
   }
 
   handleDelete = async (groupId, taskId) => {
     const { actions } = this.props
     await actions.task.deleteTask(groupId, taskId)
-    actions.taskOpenUpdate.closeUpdateTask()
+    actions.taskOpen.closeUpdateTask()
   }
 
   render() {

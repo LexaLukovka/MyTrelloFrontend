@@ -60,7 +60,7 @@ class GroupCard extends React.Component {
   }
 
   render() {
-    const { classes, user, title, tasks, groupId, index, openEdit, openTask: { openId } } = this.props
+    const { classes, user, title, tasks, groupId, index, openEdit, openId } = this.props
 
     return (
       <Draggable draggableId={groupId} index={index}>
@@ -91,11 +91,11 @@ class GroupCard extends React.Component {
               <CardContent className={classes.content}>
                 {user &&
                 (openId === groupId ?
-                  <ClickAwayListener onClickAway={this.handleCloseInput}>
-                    <CreateGroupTask closeInput={this.handleCloseInput} />
-                  </ClickAwayListener>
+                    <ClickAwayListener onClickAway={this.handleCloseInput}>
+                      <CreateGroupTask closeInput={this.handleCloseInput} />
+                    </ClickAwayListener>
                     :
-                  <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
+                    <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
                 )}
                 <Droppable droppableId={groupId} type="task">
                   {(provideds) => (
@@ -131,12 +131,13 @@ GroupCard.propTypes = {
   title: string.isRequired,
   tasks: array.isRequired,
   index: number.isRequired,
+  openId: string,
   openEdit: string,
-  openTask: object.isRequired,
 }
 
 GroupCard.defaultProps = {
   user: null,
+  openId: null,
   openEdit: null,
 }
 
