@@ -34,7 +34,7 @@ const styles = () => ({
 class GroupCard extends React.Component {
   handleEditGroupCard = (groupId) => {
     const { actions } = this.props
-    actions.group.currentGroup(groupId)
+    actions.groupCard.currentGroup(groupId)
     actions.groupEdit.openEdit(groupId)
   }
 
@@ -45,12 +45,12 @@ class GroupCard extends React.Component {
 
   handleDeleteGroupCard = (groupId) => {
     const { actions } = this.props
-    actions.groupDelete.deleteGroup(groupId)
+    actions.groupCard.deleteGroup(groupId)
   }
 
   handleOpenInput = (groupId) => {
     const { actions } = this.props
-    actions.group.currentGroup(groupId)
+    actions.groupCard.currentGroup(groupId)
     actions.task.openOneTask(groupId)
   }
 

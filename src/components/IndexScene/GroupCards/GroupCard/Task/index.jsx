@@ -38,7 +38,7 @@ class Task extends React.Component {
   handleOpenDetails = (groupId, taskId) => {
     const { actions, auth } = this.props
     if (auth.user) {
-      actions.group.currentTask({ groupId, taskId })
+      actions.groupCard.currentTask({ groupId, taskId })
       actions.taskOpen.openDetailsTask(taskId)
       actions.taskOpenUpdate.closeUpdateTask()
     } else {
@@ -53,7 +53,7 @@ class Task extends React.Component {
 
   handleOpenRefactor = (groupId, taskId) => {
     const { actions } = this.props
-    actions.group.currentTask({ groupId, taskId })
+    actions.groupCard.currentTask({ groupId, taskId })
     actions.taskOpenUpdate.openUpdateTask(taskId)
   }
 

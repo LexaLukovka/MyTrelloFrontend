@@ -8,7 +8,7 @@ const initMapStateToProps = store => ({
 
 const initMapDispatchToProps = dispatch => ({
   actions: {
-    group: bindActionCreators(group, dispatch),
+    groupCard: bindActionCreators(group, dispatch),
   },
 })
 

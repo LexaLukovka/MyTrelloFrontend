@@ -12,7 +12,7 @@ const initMapDispatchToProps = dispatch => ({
   actions: {
     task: bindActionCreators(create, dispatch),
     openTask: bindActionCreators(isOpen, dispatch),
-    groupCardLoad: bindActionCreators(load, dispatch),
+    groupCard: bindActionCreators(load, dispatch),
   },
 })
 

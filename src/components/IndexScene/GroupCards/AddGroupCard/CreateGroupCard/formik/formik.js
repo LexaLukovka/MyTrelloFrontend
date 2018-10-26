@@ -16,7 +16,7 @@ const formik = withFormik({
     actions.groupCard.create(values)
       .then(() => {
         setSubmitting(false)
-        actions.groupCardLoad.load()
+        actions.groupCard.load()
       })
       .catch(errors => {
         setSubmitting(false)

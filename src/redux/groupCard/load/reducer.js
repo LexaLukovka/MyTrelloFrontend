@@ -1,7 +1,13 @@
 /* eslint-disable no-underscore-dangle,no-return-assign */
 import {
+  CREATE_GROUP_CARD_FULFILLED,
+  CREATE_GROUP_CARD_PENDING,
+  CREATE_GROUP_CARD_REJECTED,
   CURRENT_GROUP,
   CURRENT_TASK,
+  DELETE_GROUP_CARD_FULFILLED,
+  DELETE_GROUP_CARD_PENDING,
+  DELETE_GROUP_CARD_REJECTED,
   LOAD_GROUP_CARD_FULFILLED,
   LOAD_GROUP_CARD_PENDING,
   LOAD_GROUP_CARD_REJECTED,
@@ -23,14 +29,18 @@ const initialState = {
 const loadReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case LOAD_GROUP_CARD_PENDING:
+    case CREATE_GROUP_CARD_PENDING:
     case SAVE_GROUP_CARD_PENDING:
+    case DELETE_GROUP_CARD_PENDING:
       return {
         ...state,
         loading: true,
       }
 
     case LOAD_GROUP_CARD_REJECTED:
+    case CREATE_GROUP_CARD_REJECTED:
     case SAVE_GROUP_CARD_REJECTED:
+    case DELETE_GROUP_CARD_REJECTED:
       return {
         ...state,
         loading: false,
@@ -47,9 +57,16 @@ const loadReducer = (state = initialState, { type, payload }) => {
         groupCard: payload,
       }
 
+    case CREATE_GROUP_CARD_FULFILLED:
+    case DELETE_GROUP_CARD_FULFILLED:
+      return {
+        ...state,
+        loading: false,
+        messages: payload,
+      }
 
     case CURRENT_GROUP: {
-      let groupCard
+      let groupCard = {}
       state.groupCard.groupCard.forEach(groups => (groups._id === payload ? groupCard = groups : null))
 
       return {
@@ -60,10 +77,10 @@ const loadReducer = (state = initialState, { type, payload }) => {
     }
 
     case CURRENT_TASK: {
-      let groupCard
+      let groupCard = {}
       state.groupCard.groupCard.forEach(groups => (groups._id === payload.groupId ? groupCard = groups : null))
 
-      let task
+      let task = {}
       state.groupCard.groupCard.forEach(groups =>
         groups.tasks.forEach(group => (group._id === payload.taskId ? task = group : null)))
 

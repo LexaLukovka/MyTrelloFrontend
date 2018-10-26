@@ -26,7 +26,7 @@ const formik = withFormik({
       .then(() => {
         setSubmitting(false)
         actions.taskOpen.closeUpdateTask()
-        actions.group.load()
+        actions.groupCard.load()
       })
   },
 

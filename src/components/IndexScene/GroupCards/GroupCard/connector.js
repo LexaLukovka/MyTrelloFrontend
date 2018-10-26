@@ -1,8 +1,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import isOpen from 'src/redux/task/openOne/action'
-import * as group from 'src/redux/groupCard/load/action'
-import groupDelete from 'src/redux/groupCard/delete/action'
+import * as groupCard from 'src/redux/groupCard/load/action'
 import groupEdit from 'src/redux/groupCard/openEdit/action'
 
 const initMapStateToProps = store => ({
@@ -13,9 +12,8 @@ const initMapStateToProps = store => ({
 const initMapDispatchToProps = dispatch => ({
   actions: {
     task: bindActionCreators(isOpen, dispatch),
-    group: bindActionCreators(group, dispatch),
+    groupCard: bindActionCreators(groupCard, dispatch),
     groupEdit: bindActionCreators(groupEdit, dispatch),
-    groupDelete: bindActionCreators(groupDelete, dispatch),
   },
 })
 

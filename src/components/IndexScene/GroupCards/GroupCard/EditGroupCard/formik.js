@@ -24,8 +24,8 @@ const formik = withFormik({
     actions.group.update({ groupId, title })
       .then(async () => {
         setSubmitting(false)
-        await actions.group.load()
-        actions.group.currentGroup(groupId)
+        await actions.groupCard.load()
+        actions.groupCard.currentGroup(groupId)
       })
       .catch(errors => {
         setSubmitting(false)

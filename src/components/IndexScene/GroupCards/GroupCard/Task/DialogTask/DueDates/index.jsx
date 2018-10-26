@@ -27,14 +27,8 @@ const styles = theme => ({
 
 const DueDates = ({ classes, currentTask }) => {
   let color
-  if (moment(currentTask.dueDates)
-    .isAfter()) {
-    color = classes.after
-  }
-  if (moment(currentTask.dueDates)
-    .isBefore()) {
-    color = classes.before
-  }
+  if (moment(currentTask.dueDates).isAfter()) color = classes.after
+  if (moment(currentTask.dueDates).isBefore()) color = classes.before
 
   return (
     <div className={classes.root}>
