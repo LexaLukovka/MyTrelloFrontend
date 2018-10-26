@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle  */
 import React from 'react'
 import { array, number, object, string } from 'prop-types'
-import { Card, CardContent, CardHeader, IconButton, Typography, withStyles } from '@material-ui/core'
+import { Card, CardContent, CardHeader, ClickAwayListener, IconButton, Typography, withStyles } from '@material-ui/core'
 
 import DeleteIcon from 'mdi-react/DeleteIcon'
 import CreateIcon from 'mdi-react/CreateIcon'
@@ -69,7 +69,9 @@ class GroupCard extends React.Component {
             <Card className={classes.root}>
               <div {...provided.dragHandleProps}>
                 {openEdit === groupId ?
-                  <EditGroupCard closeInput={this.handleCloseEdit} />
+                  <ClickAwayListener onClickAway={this.handleCloseEdit}>
+                    <EditGroupCard closeInput={this.handleCloseEdit} />
+                  </ClickAwayListener>
                   :
                   <CardHeader
                     className={classes.title}
@@ -88,15 +90,13 @@ class GroupCard extends React.Component {
               </div>
               <CardContent className={classes.content}>
                 {user &&
-                <React.Fragment>
-                  {
-                    openId === groupId ?
-                      <CreateGroupTask closeInput={this.handleCloseInput} />
-                      :
-                      <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
-                  }
-                </React.Fragment>
-                }
+                (openId === groupId ?
+                  <ClickAwayListener onClickAway={this.handleCloseInput}>
+                    <CreateGroupTask closeInput={this.handleCloseInput} />
+                  </ClickAwayListener>
+                    :
+                  <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
+                )}
                 <Droppable droppableId={groupId} type="task">
                   {(provideds) => (
                     <div

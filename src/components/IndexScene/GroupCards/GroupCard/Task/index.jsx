@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle, jsx-a11y/mouse-events-have-key-events */
 import React from 'react'
 import { number, object, string } from 'prop-types'
-import { Card, withStyles } from '@material-ui/core'
+import { Card, ClickAwayListener, withStyles } from '@material-ui/core'
 
 import { Draggable } from 'react-beautiful-dnd'
 
@@ -29,7 +29,7 @@ class Task extends React.Component {
     })
   }
 
-  onMouseOut = () => {
+  onMouseLeave = () => {
     this.setState({
       visibility: null,
     })
@@ -90,16 +90,18 @@ class Task extends React.Component {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
             onMouseOver={() => this.onMouseOver(task._id)}
-            onMouseLeave={() => this.onMouseOut(task._id)}
+            onMouseLeave={this.onMouseLeave}
           >
             <Card className={classes.root}>
               {
                 task._id === openRefactor ?
-                  <TaskUpdateForm
-                    user={user}
-                    onCloseReafactor={this.handleCloseRefactor}
-                    onDelete={() => this.handleDelete(groupId, task._id)}
-                  />
+                  <ClickAwayListener onClickAway={this.handleCloseRefactor}>
+                    <TaskUpdateForm
+                      user={user}
+                      onCloseReafactor={this.handleCloseRefactor}
+                      onDelete={() => this.handleDelete(groupId, task._id)}
+                    />
+                  </ClickAwayListener>
                   :
                   <ViewTask
                     user={user}
