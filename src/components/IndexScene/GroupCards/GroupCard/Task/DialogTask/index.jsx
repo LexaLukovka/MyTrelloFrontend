@@ -1,20 +1,32 @@
 import React from 'react'
 import { bool, func, object } from 'prop-types'
-import { Dialog, DialogTitle, withStyles } from '@material-ui/core'
+import { Dialog, DialogTitle, IconButton, withStyles } from '@material-ui/core'
+import ClearIcon from 'mdi-react/ClearIcon'
 
+import GroupTitle from './GroupTitle'
+import DueDates from './DueDates'
 import TaskForm from './TaskForm'
 import ActionsButton from './ActionsButton'
-import DueDates from './DueDates'
 
-const styles = () => ({
+const styles = (theme) => ({
   root: {},
   flex: {
     display: 'flex',
     justifyContent: 'space-between',
   },
+  flexCustom: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+    },
+  },
+  icon: {
+    margin: 10,
+  },
 })
 
-const DialogTask = ({ classes, task, isOpen, onClose, onDelete }) =>
+const DialogTask = ({ classes, currentGroup, currentTask, task, isOpen, onClose, onDelete }) =>
   <Dialog
     open={isOpen}
     onClose={onClose}
@@ -22,16 +34,22 @@ const DialogTask = ({ classes, task, isOpen, onClose, onDelete }) =>
   >
     <div className={classes.flex}>
       <DialogTitle>Редактирование</DialogTitle>
-      <DueDates />
+      <IconButton className={classes.icon} onClick={onClose}><ClearIcon /></IconButton>
     </div>
-    <div className={classes.flex}>
+    <div className={classes.flexCustom}>
+      <GroupTitle currentGroup={currentGroup} />
+      {currentTask.dueDates && <DueDates currentTask={currentTask} />}
+    </div>
+    <div className={classes.flexCustom}>
       <TaskForm />
-      <ActionsButton onClose={onClose} onDelete={onDelete} />
+      <ActionsButton onDelete={onDelete} />
     </div>
   </Dialog>
 
 DialogTask.propTypes = {
   classes: object.isRequired,
+  currentGroup: object.isRequired,
+  currentTask: object.isRequired,
   task: object.isRequired,
   isOpen: bool.isRequired,
   onClose: func.isRequired,

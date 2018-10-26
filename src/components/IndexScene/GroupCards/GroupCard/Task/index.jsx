@@ -56,7 +56,17 @@ class Task extends React.Component {
   }
 
   render() {
-    const { classes, auth: { user }, groupId, task, index, openRefactor, openDetails } = this.props
+    const {
+      classes,
+      auth: { user },
+      currentGroup,
+      currentTask,
+      groupId,
+      task,
+      index,
+      openRefactor,
+      openDetails,
+    } = this.props
 
     return (
       <Draggable draggableId={task._id} index={index}>
@@ -85,6 +95,8 @@ class Task extends React.Component {
               {user ?
                 <DialogTask
                   task={task}
+                  currentGroup={currentGroup}
+                  currentTask={currentTask}
                   isOpen={task._id === openDetails}
                   onClose={this.handleCloseDetails}
                   onDelete={() => this.handleDelete(groupId, task._id)}
@@ -108,6 +120,8 @@ Task.propTypes = {
   classes: object.isRequired,
   auth: object.isRequired,
   actions: object.isRequired,
+  currentGroup: object.isRequired,
+  currentTask: object.isRequired,
   groupId: string.isRequired,
   task: object.isRequired,
   index: number.isRequired,
