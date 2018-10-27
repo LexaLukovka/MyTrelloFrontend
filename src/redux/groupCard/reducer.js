@@ -3,21 +3,20 @@ import {
   CREATE_GROUP_CARD_FULFILLED,
   CREATE_GROUP_CARD_PENDING,
   CREATE_GROUP_CARD_REJECTED,
-
   CURRENT_GROUP,
   CURRENT_TASK,
-
   DELETE_GROUP_CARD_FULFILLED,
   DELETE_GROUP_CARD_PENDING,
   DELETE_GROUP_CARD_REJECTED,
-
   LOAD_GROUP_CARD_FULFILLED,
   LOAD_GROUP_CARD_PENDING,
   LOAD_GROUP_CARD_REJECTED,
-
   SAVE_GROUP_CARD_FULFILLED,
-  SAVE_GROUP_CARD_PENDING,
   SAVE_GROUP_CARD_REJECTED,
+  UPDATE_GROUP_CARD_FULFILLED,
+  UPDATE_GROUP_CARD_PENDING,
+  UPDATE_GROUP_CARD_REJECTED,
+  ADD_PICTURE_TASK,
 } from './action'
 
 const initialState = {
@@ -35,6 +34,7 @@ const groupCardReducer = (state = initialState, { type, payload }) => {
     // case SAVE_GROUP_CARD_PENDING:
     case LOAD_GROUP_CARD_PENDING:
     case CREATE_GROUP_CARD_PENDING:
+    case UPDATE_GROUP_CARD_PENDING:
     case DELETE_GROUP_CARD_PENDING:
       return {
         ...state,
@@ -43,6 +43,7 @@ const groupCardReducer = (state = initialState, { type, payload }) => {
 
     case LOAD_GROUP_CARD_REJECTED:
     case CREATE_GROUP_CARD_REJECTED:
+    case UPDATE_GROUP_CARD_REJECTED:
     case SAVE_GROUP_CARD_REJECTED:
     case DELETE_GROUP_CARD_REJECTED:
       return {
@@ -54,6 +55,7 @@ const groupCardReducer = (state = initialState, { type, payload }) => {
       }
 
     case LOAD_GROUP_CARD_FULFILLED:
+    case UPDATE_GROUP_CARD_FULFILLED:
     case SAVE_GROUP_CARD_FULFILLED:
       return {
         ...state,
@@ -95,6 +97,13 @@ const groupCardReducer = (state = initialState, { type, payload }) => {
         currentTask: task,
       }
     }
+
+    case ADD_PICTURE_TASK:
+      return {
+        ...state,
+        currentTask: { ...state.currentTask, ...payload },
+      }
+
 
     default:
       return state

@@ -29,6 +29,9 @@ const styles = () => ({
   content: {
     padding: 10,
   },
+  task: {
+    paddingTop: 5,
+  },
 })
 
 class GroupCard extends React.Component {
@@ -91,24 +94,25 @@ class GroupCard extends React.Component {
               <CardContent className={classes.content}>
                 {user &&
                 (openId === groupId ?
-                    <ClickAwayListener onClickAway={this.handleCloseInput}>
-                      <CreateGroupTask closeInput={this.handleCloseInput} />
-                    </ClickAwayListener>
+                  <ClickAwayListener onClickAway={this.handleCloseInput}>
+                    <CreateGroupTask closeInput={this.handleCloseInput} />
+                  </ClickAwayListener>
                     :
-                    <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
+                  <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
                 )}
                 <Droppable droppableId={groupId} type="task">
                   {(provideds) => (
                     <div
                       ref={provideds.innerRef}
                       {...provideds.droppableProps}
+                      className={classes.task}
                     >
                       {tasks.map((task, i) =>
                         <Task
-                          key={task._id}
                           index={i}
-                          groupId={groupId}
                           task={task}
+                          key={task._id}
+                          groupId={groupId}
                         />)}
                       {provideds.placeholder}
                     </div>

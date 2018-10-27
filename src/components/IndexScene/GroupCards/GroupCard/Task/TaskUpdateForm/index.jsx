@@ -3,8 +3,8 @@ import { func, object } from 'prop-types'
 import { Button, IconButton, withStyles } from '@material-ui/core'
 import DeleteIcon from 'mdi-react/DeleteIcon'
 
-import FormikText from './formik/FormikText'
 import { Field, Form } from 'formik'
+import FormikText from 'components/formik/FormikText'
 import formik from './formik'
 
 import connector from './connector'

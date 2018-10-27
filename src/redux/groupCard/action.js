@@ -10,10 +10,17 @@ export const CREATE_GROUP_CARD_PENDING = 'CREATE_GROUP_CARD_PENDING'
 export const CREATE_GROUP_CARD_REJECTED = 'CREATE_GROUP_CARD_REJECTED'
 export const CREATE_GROUP_CARD_FULFILLED = 'CREATE_GROUP_CARD_FULFILLED'
 
+export const UPDATE_GROUP_CARD = 'UPDATE_GROUP_CARD'
+export const UPDATE_GROUP_CARD_PENDING = 'UPDATE_GROUP_CARD_PENDING'
+export const UPDATE_GROUP_CARD_REJECTED = 'UPDATE_GROUP_CARD_REJECTED'
+export const UPDATE_GROUP_CARD_FULFILLED = 'UPDATE_GROUP_CARD_FULFILLED'
+
 export const SAVE_GROUP_CARD = 'SAVE_GROUP_CARD'
 export const SAVE_GROUP_CARD_PENDING = 'SAVE_GROUP_CARD_PENDING'
 export const SAVE_GROUP_CARD_REJECTED = 'SAVE_GROUP_CARD_REJECTED'
 export const SAVE_GROUP_CARD_FULFILLED = 'SAVE_GROUP_CARD_FULFILLED'
+
+export const ADD_PICTURE_TASK = 'ADD_PICTURE_TASK'
 
 export const DELETE_GROUP_CARD = 'DELETE_GROUP_CARD'
 export const DELETE_GROUP_CARD_PENDING = 'DELETE_GROUP_CARD_PENDING'
@@ -42,8 +49,13 @@ export const save = groupCard => async dispatch => {
 }
 
 export const update = groupCard => ({
-  type: LOAD_GROUP_CARD,
+  type: UPDATE_GROUP_CARD,
   payload: GroupCard.update(groupCard),
+})
+
+export const addPictures = ({ ...picture }) => ({
+  type: ADD_PICTURE_TASK,
+  payload: picture,
 })
 
 export const deleteGroup = (groupId) => async dispatch => {
