@@ -72,5 +72,6 @@ export const logout = () => dispatch => {
     type: LOGOUT_USER,
   })
 
+  localStorage.setItem('user', JSON.stringify(null))
   dispatch(alert.show('Вы вышли'))
 }
