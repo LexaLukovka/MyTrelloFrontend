@@ -15,8 +15,7 @@ const formik = withFormik({
 
   mapPropsToValues: ({ currentTask }) => ({
     task: currentTask ? (currentTask.task || '') : '',
-    dueDates: currentTask ? (currentTask.dueDates || moment(new Date())
-      .format('YYYY-MM-DDT20:00')) : '',
+    dueDates: currentTask ? (currentTask.dueDates || moment(new Date()).format('YYYY-MM-DDT17:00')) : '',
     description: currentTask ? (currentTask.description || '') : '',
   }),
 
@@ -31,8 +30,8 @@ const formik = withFormik({
     actions.task.update({ taskId, groupId, task, description, dueDates })
       .then(async () => {
         setSubmitting(false)
-        await actions.group.load()
-        actions.group.currentTask({ groupId, taskId })
+        await actions.groupCard.load()
+        actions.groupCard.currentTask({ groupId, taskId })
       })
   },
 

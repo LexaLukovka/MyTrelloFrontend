@@ -21,7 +21,7 @@ const formik = withFormik({
       .then(() => {
         setSubmitting(false)
         actions.openTask.closeOneTask()
-        actions.groupCardLoad.load()
+        actions.groupCard.load()
       })
       .catch(errors => {
         setSubmitting(false)

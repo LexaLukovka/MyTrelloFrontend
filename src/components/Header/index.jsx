@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import { AppBar, IconButton, Toolbar, Typography, withStyles } from '@material-ui/core'
 import MenuIcon from 'mdi-react/MenuIcon'
 import UserMenu from 'components/Header/UserMenu'
-import shortTitle from 'utils/shortTitle'
 import connector from './connector'
 
 const styles = theme => ({
@@ -33,7 +32,7 @@ const styles = theme => ({
   },
 })
 
-const Header = ({ classes, header }) =>
+const Header = ({ classes }) =>
   <header className={classes.root}>
     <AppBar className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
@@ -44,7 +43,7 @@ const Header = ({ classes, header }) =>
         </div>
 
         <Typography variant="title" color="secondary" className={classes.title}>
-          <Link to={header.link}>{shortTitle(header.title)}</Link>
+          <Link to="/">MyTrello</Link>
         </Typography>
 
         <UserMenu />
@@ -54,7 +53,6 @@ const Header = ({ classes, header }) =>
 
 Header.propTypes = {
   classes: object.isRequired,
-  header: object.isRequired,
 }
 
 export default withStyles(styles)(connector(Header))

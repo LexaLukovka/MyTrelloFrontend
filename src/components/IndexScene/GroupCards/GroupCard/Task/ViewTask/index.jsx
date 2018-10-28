@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react'
-import { func, string, object } from 'prop-types'
+import { func, object, string } from 'prop-types'
 import { IconButton, Typography, withStyles } from '@material-ui/core'
 import CreateIcon from 'mdi-react/CreateIcon'
 import moment from 'moment'
@@ -13,6 +13,8 @@ const styles = theme => ({
   task: {
     width: '100%',
     alignSelf: 'center',
+    paddingTop: 5,
+    paddingBottom: 5,
   },
   icon: {
     width: 38,
@@ -34,16 +36,20 @@ const ViewTask = ({ classes, user, task, clickOpenRefactor, clickOpenDetails, vi
   return (
     <div>
       <div className={classes.root}>
-        <Typography onClick={clickOpenDetails} className={classes.task} variant="subheading">{task.task}</Typography>
+        <Typography onClick={clickOpenDetails} className={classes.task} variant="subheading">
+          {task.task}
+        </Typography>
+
         {user &&
         (visibility === task._id) &&
-          <IconButton onClick={clickOpenRefactor} className={classes.icon}>
-            <CreateIcon />
-          </IconButton>
+        <IconButton onClick={clickOpenRefactor} className={classes.icon}>
+          <CreateIcon />
+        </IconButton>
         }
       </div>
       {task.dueDates !== '' &&
-      <Typography variant="caption" className={color}>{moment(task.dueDates).fromNow()}</Typography>
+      <Typography variant="caption" className={color}>{moment(task.dueDates)
+        .fromNow()}</Typography>
       }
     </div>
   )

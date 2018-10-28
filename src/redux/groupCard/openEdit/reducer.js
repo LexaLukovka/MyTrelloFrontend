@@ -4,7 +4,7 @@ const initialState = {
   openEdit: null,
 }
 
-const openEditReducer = (state = initialState, { type, payload }) => {
+const openEditGroupReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case OPEN_EDIT_GROUP:
     case CLOSE_EDIT_GROUP:
@@ -19,5 +19,5 @@ const openEditReducer = (state = initialState, { type, payload }) => {
   }
 }
 
-export default openEditReducer
+export default openEditGroupReducer
 

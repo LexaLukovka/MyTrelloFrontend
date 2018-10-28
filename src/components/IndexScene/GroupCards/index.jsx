@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle,no-confusing-arrow,no-return-assign */
 import React from 'react'
-import { array, object } from 'prop-types'
+import { object } from 'prop-types'
 import { withStyles } from '@material-ui/core'
 
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
@@ -20,7 +20,7 @@ const styles = () => ({
 
 class GroupCards extends React.Component {
   onDragEnd = async (result) => {
-    const { actions, groupCard } = this.props
+    const { actions, groupCard: { groupCard } } = this.props
     const { destination, source, draggableId, type } = result
 
     if (!destination) return
@@ -80,7 +80,7 @@ class GroupCards extends React.Component {
   }
 
   render() {
-    const { classes, user, groupCard } = this.props
+    const { classes, user, groupCard: { groupCard } } = this.props
 
     return (
       <div className={classes.root}>
@@ -124,7 +124,7 @@ GroupCards.propTypes = {
   classes: object.isRequired,
   actions: object.isRequired,
   user: object,
-  groupCard: array.isRequired,
+  groupCard: object.isRequired,
 }
 
 GroupCards.defaultProps = {

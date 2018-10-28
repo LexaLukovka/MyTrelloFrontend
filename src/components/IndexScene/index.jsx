@@ -27,7 +27,7 @@ class IndexScene extends React.Component {
   }
 
   render() {
-    const { classes, auth: { user }, loading, groupCard: { groupCard } } = this.props
+    const { classes, auth: { user }, loading, groupCard } = this.props
     if (loading) return <Loading />
 
     return (
