@@ -10,15 +10,15 @@ const styles = () => ({
     opacity: 0.8,
   },
 })
-const ClickAddTask = ({ classes, openInput }) =>
-  <Card className={classes.root} onClick={openInput}>
+const ClickAddTask = ({ classes, onCreateTask }) =>
+  <Card className={classes.root} onClick={onCreateTask}>
     <AddIcon style={{ alignSelf: 'center' }} />
     <Typography variant="body2">Добавить таску</Typography>
   </Card>
 
 ClickAddTask.propTypes = {
   classes: object.isRequired,
-  openInput: func.isRequired,
+  onCreateTask: func.isRequired,
 }
 
 export default withStyles(styles)(ClickAddTask)

@@ -1,19 +1,15 @@
 /* eslint-disable no-underscore-dangle  */
 import React from 'react'
-import { array, number, object, string } from 'prop-types'
-import { Card, CardContent, CardHeader, ClickAwayListener, IconButton, Typography, withStyles } from '@material-ui/core'
-
-import DeleteIcon from 'mdi-react/DeleteIcon'
-import CreateIcon from 'mdi-react/CreateIcon'
+import { array, func, number, object, string } from 'prop-types'
+import { Card, CardContent, withStyles } from '@material-ui/core'
 
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 
-import EditGroupCard from './EditGroupCard'
-import CreateGroupTask from './CreateGroupTask'
-import ClickAddTask from './ClickAddTask'
+import MyGroupCardHeader from './MyGroupCardHeader'
+import CreateTasks from './CreateTasks'
 import Task from './Task'
 
-import connector from './connector'
+import isEmpty from 'lodash-es/isEmpty'
 
 const styles = () => ({
   root: {
@@ -21,10 +17,6 @@ const styles = () => ({
     maxWidth: 400,
     margin: '0 10px 30px',
     background: 'rgba(225, 225, 225, 0.8)',
-  },
-  title: {
-    paddingTop: '8px',
-    paddingBottom: '8px',
   },
   content: {
     padding: 10,
@@ -34,109 +26,83 @@ const styles = () => ({
   },
 })
 
-class GroupCard extends React.Component {
-  handleEditGroupCard = (groupId) => {
-    const { actions } = this.props
-    actions.groupCard.currentGroup(groupId)
-    actions.groupEdit.openEdit(groupId)
-  }
-
-  handleCloseEdit = () => {
-    const { actions } = this.props
-    actions.groupEdit.closeEdit()
-  }
-
-  handleDeleteGroupCard = (groupId) => {
-    const { actions } = this.props
-    actions.groupCard.deleteGroup(groupId)
-  }
-
-  handleOpenInput = (groupId) => {
-    const { actions } = this.props
-    actions.groupCard.currentGroup(groupId)
-    actions.task.openOneTask(groupId)
-  }
-
-  handleCloseInput = () => {
-    const { actions } = this.props
-    actions.task.closeOneTask()
-  }
-
-  render() {
-    const { classes, user, title, tasks, groupId, index, openEdit, openId } = this.props
-
-    return (
-      <Draggable draggableId={groupId} index={index}>
-        {(provided) => (
-          <div {...provided.draggableProps} ref={provided.innerRef}>
-            <Card className={classes.root}>
-              <div {...provided.dragHandleProps}>
-                {openEdit === groupId ?
-                  <ClickAwayListener onClickAway={this.handleCloseEdit}>
-                    <EditGroupCard closeInput={this.handleCloseEdit} />
-                  </ClickAwayListener>
-                  :
-                  <CardHeader
-                    className={classes.title}
-                    title={<Typography variant="subheading">{title}</Typography>}
-                    action={user &&
-                    <div style={{ paddingTop: 5 }}>
-                      <IconButton onClick={() => this.handleEditGroupCard(groupId)}>
-                        <CreateIcon />
-                      </IconButton>
-                      <IconButton onClick={() => this.handleDeleteGroupCard(groupId)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </div>}
-                  />
-                }
-              </div>
-              <CardContent className={classes.content}>
-                {user &&
-                (openId === groupId ?
-                  <ClickAwayListener onClickAway={this.handleCloseInput}>
-                    <CreateGroupTask closeInput={this.handleCloseInput} />
-                  </ClickAwayListener>
-                    :
-                  <ClickAddTask openInput={() => this.handleOpenInput(groupId)} />
-                )}
-                <Droppable droppableId={groupId} type="task">
-                  {(provideds) => (
-                    <div
-                      ref={provideds.innerRef}
-                      {...provideds.droppableProps}
-                      className={classes.task}
-                    >
-                      {tasks.map((task, i) =>
-                        <Task
-                          index={i}
-                          task={task}
-                          key={task._id}
-                          groupId={groupId}
-                        />)}
-                      {provideds.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              </CardContent>
-            </Card>
+const GroupCard = ({
+  classes,
+  user,
+  title,
+  tasks,
+  groupId,
+  index,
+  openId,
+  openEdit,
+  onCloseEdit,
+  onOpenEdit,
+  onDelete,
+  onCreateTask,
+  onCloseCreateTasks,
+}) =>
+  <Draggable draggableId={groupId} index={index}>
+    {(provided) => (
+      <div {...provided.draggableProps} ref={provided.innerRef}>
+        <Card className={classes.root}>
+          <div {...provided.dragHandleProps}>
+            <MyGroupCardHeader
+              user={user}
+              title={title}
+              openEdit={openEdit}
+              groupId={groupId}
+              onOpenEdit={onOpenEdit}
+              onCloseEdit={onCloseEdit}
+              onDelete={onDelete}
+            />
           </div>
-        )}
-      </Draggable>
-    )
-  }
-}
+          <CardContent className={classes.content}>
+            <CreateTasks
+              user={user}
+              openId={openId}
+              groupId={groupId}
+              onCreateTask={onCreateTask}
+              onCloseCreateTasks={onCloseCreateTasks}
+            />
+            <Droppable droppableId={groupId} type="task">
+              {(provideds) => (
+                <div
+                  ref={provideds.innerRef}
+                  {...provideds.droppableProps}
+                  className={classes.task}
+                >
+                  {!isEmpty(tasks) &&
+                  tasks.map((task, i) =>
+                    <Task
+                      index={i}
+                      task={task}
+                      key={task._id}
+                      groupId={groupId}
+                    />)}
+                  {provideds.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </CardContent>
+        </Card>
+      </div>
+    )}
+  </Draggable>
 
 GroupCard.propTypes = {
   classes: object.isRequired,
   user: object,
-  actions: object.isRequired,
   groupId: string.isRequired,
   title: string.isRequired,
   tasks: array.isRequired,
   index: number.isRequired,
   openId: string,
   openEdit: string,
+  onCloseEdit: func.isRequired,
+  onOpenEdit: func.isRequired,
+  onDelete: func.isRequired,
+  onCreateTask: func.isRequired,
+  onCloseCreateTasks: func.isRequired,
 }
 
 GroupCard.defaultProps = {
@@ -145,4 +111,4 @@ GroupCard.defaultProps = {
   openEdit: null,
 }
 
-export default withStyles(styles)(connector(GroupCard))
+export default withStyles(styles)(GroupCard)

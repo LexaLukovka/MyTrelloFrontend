@@ -41,12 +41,10 @@ export const create = (title) => ({
   payload: GroupCard.create(title),
 })
 
-export const save = groupCard => async dispatch => {
-  await dispatch({
-    type: SAVE_GROUP_CARD,
-    payload: GroupCard.save(groupCard),
-  })
-}
+export const save = groupCard => ({
+  type: SAVE_GROUP_CARD,
+  payload: GroupCard.save(groupCard),
+})
 
 export const update = groupCard => ({
   type: UPDATE_GROUP_CARD,
