@@ -1,26 +1,34 @@
 /* eslint-disable no-underscore-dangle,no-confusing-arrow,no-return-assign */
 import React from 'react'
-import { object } from 'prop-types'
+import { array, object, string } from 'prop-types'
 import { withStyles } from '@material-ui/core'
 
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
-import GroupCard from 'components/IndexScene/GroupCards/GroupCard'
-import AddGroupCard from 'components/IndexScene/GroupCards/AddGroupCard'
+import GroupCard from './GroupCard'
+import AddGroupCard from './AddGroupCard'
 
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import connector from './connector'
 
 const styles = () => ({
   root: {
     display: 'flex',
-    // flexWrap: 'wrap',
   },
 })
 
 class GroupCards extends React.Component {
-  onDragEnd = async (result) => {
-    const { actions, groupCard: { groupCard } } = this.props
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      groupCard: props.groupCard,
+    }
+  }
+
+  onDragEnd = (result) => {
+    const { actions } = this.props
+    const { groupCard } = this.state
     const { destination, source, draggableId, type } = result
 
     if (!destination) return
@@ -33,54 +41,124 @@ class GroupCards extends React.Component {
     }
 
     if (type === 'groupCard') {
-      const newGroupCard = groupCard
-
-      let currentGroup = {}
-      groupCard.filter(group => group._id === draggableId && (currentGroup = group))
-
-      newGroupCard.splice(source.index, 1)
-      newGroupCard.splice(destination.index, 0, currentGroup)
-
-      console.log(source.index, destination.index)
-
-
-      // const a = newGroupCard.map(group => group.index <= destination.index && group.index - 1)
-
-      // console.log(a, newGroupCard)
-
-      // await actions.groupCard.save({ newGroupCard })
-
+      this.changeGroup(actions, groupCard, draggableId, source, destination)
       return
     }
 
-    let start = {}
-    groupCard.filter(group => group._id === source.droppableId && (start = group))
-
-    let finish = {}
-    groupCard.filter(group => group._id === destination.droppableId && (finish = group))
-
-    if (start === finish) {
-      let currentTask = {}
-      start.tasks.filter(task => task._id === draggableId && (currentTask = task))
-
-      start.tasks.splice(source.index, 1)
-      start.tasks.splice(destination.index, 0, currentTask)
-
-      await actions.groupCard.save({ start })
-      return
-    }
-
-    let startCurrentTask = {}
-    start.tasks.filter(task => task._id === draggableId && (startCurrentTask = task))
-    start.tasks.splice(source.index, 1)
-
-    finish.tasks.splice(destination.index, 0, startCurrentTask)
-
-    await actions.groupCard.save({ start, finish })
+    this.changeTasksInOtherGroup(actions, groupCard, draggableId, source, destination)
   }
 
+  changeGroup = (actions, groupCard, draggableId, source, destination) => {
+    const newGroupCard = groupCard
+
+    let currentGroup = {}
+    groupCard.filter(group => group._id === draggableId && (currentGroup = group))
+
+    newGroupCard.splice(source.index, 1)
+    newGroupCard.splice(destination.index, 0, currentGroup)
+
+    const newState = {
+      ...this.state,
+      groupCard: newGroupCard,
+    }
+
+    this.setState(newState)
+
+    newGroupCard.map((group, index) => group.index = index)
+
+    actions.groupCard.save({ newGroupCard })
+  }
+
+  changeTasksInOtherGroup = (actions, groupCard, draggableId, source, destination) => {
+    let startGroup = {}
+    let startIndex = ''
+    groupCard.filter((group, index) =>
+      group._id === source.droppableId && (startGroup = group) && (startIndex = index))
+
+    let finishGroup = {}
+    let finishIndex = ''
+    groupCard.filter((group, index) =>
+      group._id === destination.droppableId && (finishGroup = group) && (finishIndex = index))
+
+
+    if (startGroup === finishGroup) {
+      this.changeInOneGroup(actions, startGroup, startIndex, draggableId, source, destination)
+      return
+    }
+
+
+    let startCurrentTask = {}
+    startGroup.tasks.filter(task => task._id === draggableId && (startCurrentTask = task))
+    startGroup.tasks.splice(source.index, 1)
+
+    finishGroup.tasks.splice(destination.index, 0, startCurrentTask)
+
+    const newState = {
+      ...this.state,
+      groupCard: {
+        ...this.state.groupCard,
+        [startIndex]: startGroup,
+        [finishIndex]: finishGroup,
+      },
+    }
+
+    this.setState([newState])
+
+    actions.groupCard.save({ startGroup, finishGroup })
+  }
+
+  changeInOneGroup = (actions, startGroup, startIndex, draggableId, source, destination) => {
+    let currentTask = {}
+    startGroup.tasks.filter(task => task._id === draggableId && (currentTask = task))
+
+    startGroup.tasks.splice(source.index, 1)
+    startGroup.tasks.splice(destination.index, 0, currentTask)
+
+
+    const newState = {
+      ...this.state,
+      groupCard: {
+        ...this.state.groupCard,
+        [startIndex]: startGroup,
+      },
+    }
+
+    this.setState([newState])
+
+    actions.groupCard.save({ startGroup })
+  }
+
+  handleEditGroupCard = (groupId) => {
+    const { actions } = this.props
+    actions.groupCard.currentGroup(groupId)
+    actions.groupEdit.openEdit(groupId)
+  }
+
+  handleCloseEdit = () => {
+    const { actions } = this.props
+    actions.groupEdit.closeEdit()
+  }
+
+  handleDeleteGroupCard = (groupId) => {
+    const { actions } = this.props
+    actions.groupCard.deleteGroup(groupId)
+  }
+
+  handleOpenInput = async (groupId) => {
+    const { actions } = this.props
+    actions.groupCard.currentGroup(groupId)
+    await actions.task.openOneTask(groupId)
+  }
+
+  handleCloseInput = () => {
+    const { actions } = this.props
+    actions.task.closeOneTask()
+  }
+
+
   render() {
-    const { classes, user, groupCard: { groupCard } } = this.props
+    const { classes, user, openId, openEdit } = this.props
+    const { groupCard } = this.state
 
     return (
       <div className={classes.root}>
@@ -101,10 +179,22 @@ class GroupCards extends React.Component {
                   <GroupCard
                     key={group._id}
                     index={index}
+
                     user={user}
+                    groupId={group._id}
+
                     title={group.title}
                     tasks={group.tasks}
-                    groupId={group._id}
+
+                    openEdit={openEdit}
+                    openId={openId}
+
+                    onCloseEdit={this.handleCloseEdit}
+                    onOpenEdit={() => this.handleEditGroupCard(group._id)}
+                    onDelete={() => this.handleDeleteGroupCard(group._id)}
+
+                    onCreateTask={() => this.handleOpenInput(group._id)}
+                    onCloseCreateTasks={this.handleCloseInput}
                   />)
                 }
                 {provided.placeholder}
@@ -112,9 +202,9 @@ class GroupCards extends React.Component {
             )}
           </Droppable>
         </DragDropContext>
-        {user &&
-        <AddGroupCard />
-        }
+
+        {user && <AddGroupCard />}
+
       </div>
     )
   }
@@ -124,11 +214,15 @@ GroupCards.propTypes = {
   classes: object.isRequired,
   actions: object.isRequired,
   user: object,
-  groupCard: object.isRequired,
+  groupCard: array.isRequired,
+  openId: string,
+  openEdit: string,
 }
 
 GroupCards.defaultProps = {
   user: null,
+  openId: null,
+  openEdit: null,
 }
 
 export default withStyles(styles)(connector(GroupCards))

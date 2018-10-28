@@ -18,17 +18,17 @@ class Auth {
   }
 
   async facebook(FBuser) {
-    const { token, refreshToken } = await Http.post('/login/facebook', FBuser)
+    const { token } = await Http.post('/login/facebook', FBuser)
     const user = JWT(token)._doc
 
-    return { token, refreshToken, ...user }
+    return { token, ...user }
   }
 
   async google(Guser) {
-    const { token, refreshToken } = await Http.post('/login/google', Guser)
+    const { token } = await Http.post('/login/google', Guser)
     const user = JWT(token)._doc
 
-    return { token, refreshToken, ...user }
+    return { token, ...user }
   }
 }
 

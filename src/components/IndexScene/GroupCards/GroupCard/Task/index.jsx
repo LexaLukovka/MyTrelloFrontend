@@ -82,6 +82,7 @@ class Task extends React.Component {
     } = this.props
 
     const { visibility } = this.state
+
     return (
       <Draggable draggableId={task._id} index={index}>
         {(provided) =>

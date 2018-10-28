@@ -1,5 +1,5 @@
 import React from 'react'
-import { bool, object } from 'prop-types'
+import { array, bool, object } from 'prop-types'
 import { withStyles } from '@material-ui/core'
 import GroupCards from 'components/IndexScene/GroupCards'
 import Loading from 'components/Loading'
@@ -43,7 +43,7 @@ IndexScene.propTypes = {
   auth: object.isRequired,
   actions: object.isRequired,
   loading: bool.isRequired,
-  groupCard: object.isRequired,
+  groupCard: array.isRequired,
 }
 
 export default withStyles(styles)(connector(IndexScene))

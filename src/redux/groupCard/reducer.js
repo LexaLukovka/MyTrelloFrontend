@@ -1,26 +1,31 @@
 /* eslint-disable no-underscore-dangle,no-return-assign */
 import {
+  ADD_PICTURE_TASK,
   CREATE_GROUP_CARD_FULFILLED,
   CREATE_GROUP_CARD_PENDING,
   CREATE_GROUP_CARD_REJECTED,
+
   CURRENT_GROUP,
   CURRENT_TASK,
+
   DELETE_GROUP_CARD_FULFILLED,
   DELETE_GROUP_CARD_PENDING,
   DELETE_GROUP_CARD_REJECTED,
+
   LOAD_GROUP_CARD_FULFILLED,
   LOAD_GROUP_CARD_PENDING,
   LOAD_GROUP_CARD_REJECTED,
+
   SAVE_GROUP_CARD_FULFILLED,
   SAVE_GROUP_CARD_REJECTED,
+
   UPDATE_GROUP_CARD_FULFILLED,
   UPDATE_GROUP_CARD_PENDING,
   UPDATE_GROUP_CARD_REJECTED,
-  ADD_PICTURE_TASK,
 } from './action'
 
 const initialState = {
-  groupCard: {},
+  groupCard: [],
   currentTask: {},
   currentGroup: {},
   messages: null,
@@ -31,7 +36,6 @@ const initialState = {
 
 const groupCardReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    // case SAVE_GROUP_CARD_PENDING:
     case LOAD_GROUP_CARD_PENDING:
     case CREATE_GROUP_CARD_PENDING:
     case UPDATE_GROUP_CARD_PENDING:
@@ -60,7 +64,7 @@ const groupCardReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        groupCard: payload,
+        groupCard: payload.groupCard.sort((elemA, elemB) => elemA.index > elemB.index),
       }
 
     case CREATE_GROUP_CARD_FULFILLED:
@@ -73,7 +77,7 @@ const groupCardReducer = (state = initialState, { type, payload }) => {
 
     case CURRENT_GROUP: {
       let groupCard = {}
-      state.groupCard.groupCard.forEach(groups => (groups._id === payload && (groupCard = groups)))
+      state.groupCard.forEach(groups => (groups._id === payload && (groupCard = groups)))
 
       return {
         ...state,
@@ -84,10 +88,10 @@ const groupCardReducer = (state = initialState, { type, payload }) => {
 
     case CURRENT_TASK: {
       let groupCard = {}
-      state.groupCard.groupCard.forEach(groups => (groups._id === payload.groupId ? groupCard = groups : null))
+      state.groupCard.forEach(groups => (groups._id === payload.groupId ? groupCard = groups : null))
 
       let task = {}
-      state.groupCard.groupCard.forEach(groups =>
+      state.groupCard.forEach(groups =>
         groups.tasks.forEach(group => (group._id === payload.taskId && (task = group))))
 
       return {
