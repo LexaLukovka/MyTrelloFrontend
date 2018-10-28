@@ -1,12 +1,13 @@
 /* eslint-disable no-underscore-dangle,no-return-assign */
 import {
+  CURRENT_GROUP,
   CURRENT_TASK,
-  DELETE_GROUP_CARD_FULFILLED,
-  DELETE_GROUP_CARD_PENDING,
-  DELETE_GROUP_CARD_REJECTED,
   LOAD_GROUP_CARD_FULFILLED,
   LOAD_GROUP_CARD_PENDING,
   LOAD_GROUP_CARD_REJECTED,
+  SAVE_GROUP_CARD_FULFILLED,
+  SAVE_GROUP_CARD_PENDING,
+  SAVE_GROUP_CARD_REJECTED,
 } from './action'
 
 const initialState = {
@@ -22,14 +23,14 @@ const initialState = {
 const loadReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case LOAD_GROUP_CARD_PENDING:
-    case DELETE_GROUP_CARD_PENDING:
+    case SAVE_GROUP_CARD_PENDING:
       return {
         ...state,
         loading: true,
       }
 
     case LOAD_GROUP_CARD_REJECTED:
-    case DELETE_GROUP_CARD_REJECTED:
+    case SAVE_GROUP_CARD_REJECTED:
       return {
         ...state,
         loading: false,
@@ -39,6 +40,7 @@ const loadReducer = (state = initialState, { type, payload }) => {
       }
 
     case LOAD_GROUP_CARD_FULFILLED:
+    case SAVE_GROUP_CARD_FULFILLED:
       return {
         ...state,
         loading: false,
@@ -46,12 +48,16 @@ const loadReducer = (state = initialState, { type, payload }) => {
       }
 
 
-    case DELETE_GROUP_CARD_FULFILLED:
+    case CURRENT_GROUP: {
+      let groupCard
+      state.groupCard.groupCard.forEach(groups => (groups._id === payload ? groupCard = groups : null))
+
       return {
         ...state,
         loading: false,
-        messages: payload,
+        currentGroup: groupCard,
       }
+    }
 
     case CURRENT_TASK: {
       let groupCard

@@ -2,6 +2,7 @@
 import React from 'react'
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
+import moment from 'moment'
 
 const formik = withFormik({
   enableReinitialize: true,
@@ -14,6 +15,8 @@ const formik = withFormik({
 
   mapPropsToValues: ({ currentTask }) => ({
     task: currentTask ? (currentTask.task || '') : '',
+    dueDates: currentTask ? (currentTask.dueDates || moment(new Date())
+      .format('YYYY-MM-DDT20:00')) : '',
     description: currentTask ? (currentTask.description || '') : '',
   }),
 
@@ -23,8 +26,9 @@ const formik = withFormik({
 
     const task = values.task
     const description = values.description
+    const dueDates = values.dueDates
 
-    actions.task.update({ taskId, groupId, task, description })
+    actions.task.update({ taskId, groupId, task, description, dueDates })
       .then(async () => {
         setSubmitting(false)
         await actions.group.load()

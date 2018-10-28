@@ -4,30 +4,49 @@ import { Button, withStyles } from '@material-ui/core'
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
     alignSelf: 'flex-end',
-    marginRight: 10,
-    marginBottom: 10,
+    paddingBottom: 20,
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 20px',
+    },
   },
   delete: {
+    margin: 0,
     color: theme.palette.secondary.dark,
+    [theme.breakpoints.down('sm')]: {
+      background: theme.palette.secondary.dark,
+      color: theme.palette.secondary.main,
+    },
+  },
+  desktop: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+  mobile: {
+    display: 'none',
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+    },
   },
 })
 
-const ActionsButton = ({ classes, onDelete, onClose }) =>
+const ActionsButton = ({ classes, onDelete }) =>
   <div className={classes.root}>
-    <Button onClick={onDelete} className={classes.delete}>
-      Удалить
-    </Button>
-    <Button onClick={onClose} autoFocus>
-      Отмена
-    </Button>
+    <div className={classes.desktop}>
+      <Button onClick={onDelete} className={classes.delete}>
+        Удалить
+      </Button>
+    </div>
+    <div className={classes.mobile}>
+      <Button fullWidth variant="raised" onClick={onDelete} className={classes.delete}>
+        Удалить
+      </Button>
+    </div>
   </div>
 
 ActionsButton.propTypes = {
   classes: object.isRequired,
-  onClose: func.isRequired,
   onDelete: func.isRequired,
 }
 

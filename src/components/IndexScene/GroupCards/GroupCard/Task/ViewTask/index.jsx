@@ -1,5 +1,6 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react'
-import { func, object } from 'prop-types'
+import { func, string, object } from 'prop-types'
 import { IconButton, Typography, withStyles } from '@material-ui/core'
 import CreateIcon from 'mdi-react/CreateIcon'
 import moment from 'moment'
@@ -14,8 +15,8 @@ const styles = theme => ({
     alignSelf: 'center',
   },
   icon: {
-    width: 32,
-    height: 32,
+    width: 38,
+    height: 38,
   },
   after: {
     color: theme.palette.primary.dark,
@@ -25,7 +26,7 @@ const styles = theme => ({
   },
 })
 
-const ViewTask = ({ classes, user, task, clickOpenRefactor, clickOpenDetails }) => {
+const ViewTask = ({ classes, user, task, clickOpenRefactor, clickOpenDetails, visibility }) => {
   let color
   if (moment(task.dueDates).isAfter()) color = classes.after
   if (moment(task.dueDates).isBefore()) color = classes.before
@@ -35,6 +36,7 @@ const ViewTask = ({ classes, user, task, clickOpenRefactor, clickOpenDetails }) 
       <div className={classes.root}>
         <Typography onClick={clickOpenDetails} className={classes.task} variant="subheading">{task.task}</Typography>
         {user &&
+        (visibility === task._id) &&
           <IconButton onClick={clickOpenRefactor} className={classes.icon}>
             <CreateIcon />
           </IconButton>
@@ -52,10 +54,12 @@ ViewTask.propTypes = {
   task: object.isRequired,
   clickOpenRefactor: func.isRequired,
   clickOpenDetails: func.isRequired,
+  visibility: string,
 }
 
 ViewTask.defaultProps = {
   user: null,
+  visibility: null,
 }
 
 export default withStyles(styles)(ViewTask)

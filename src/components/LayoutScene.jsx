@@ -8,6 +8,8 @@ import Container from 'components/Container'
 import IndexScene from 'components/IndexScene'
 import AuthLayout from 'components/@auth/AuthLayout'
 import Alert from 'components/Alert'
+import DialogLogin from 'components/@auth/Dialog/DialogLogin'
+import DialogRegister from 'components/@auth/Dialog/DialogRegister'
 
 const LayoutScene = () =>
   <div>
@@ -20,6 +22,8 @@ const LayoutScene = () =>
         </Switch>
       </Container>
     </Background>
+    <DialogLogin />
+    <DialogRegister />
     <Alert />
   </div>
 

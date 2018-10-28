@@ -6,7 +6,8 @@ import ClickAddCard from './ClickAddCard'
 
 const styles = () => ({
   root: {
-    paddingLeft: 20,
+    padding: 20,
+    paddingTop: 0,
   },
 })
 

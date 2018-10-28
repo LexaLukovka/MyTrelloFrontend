@@ -3,16 +3,19 @@ import React from 'react'
 import { object } from 'prop-types'
 import { Typography, withStyles } from '@material-ui/core'
 import moment from 'moment'
-import connector from './connector'
 
 const styles = theme => ({
   root: {
-    margin: 20,
-    cursor: 'pointer',
+    marginRight: 20,
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 20,
+    },
   },
-  flex: {
-    display: 'flex',
-    justifyContent: 'space-between',
+  title: {
+    textAlign: 'right',
+    [theme.breakpoints.down('sm')]: {
+      textAlign: 'left',
+    },
   },
   after: {
     color: theme.palette.primary.dark,
@@ -22,35 +25,29 @@ const styles = theme => ({
   },
 })
 
-class DueDates extends React.Component {
-  handleOpenDueDates = () => {
-    const { actions } = this.props
-    actions.dueDates.openDueDates()
+const DueDates = ({ classes, currentTask }) => {
+  let color
+  if (moment(currentTask.dueDates)
+    .isAfter()) {
+    color = classes.after
+  }
+  if (moment(currentTask.dueDates)
+    .isBefore()) {
+    color = classes.before
   }
 
-  render() {
-    const { classes, currentTask } = this.props
-
-    let color
-    if (moment(currentTask.dueDates).isAfter()) color = classes.after
-    if (moment(currentTask.dueDates).isBefore()) color = classes.before
-
-    return (
-      <div onClick={this.handleOpenDueDates} className={classes.root}>
-        <Typography align="right" variant="subheading">Срок</Typography>
-        {currentTask.dueDates !== '' &&
-        <Typography className={color}>{moment(currentTask.dueDates).fromNow()}</Typography>
-        }
-      </div>
-    )
-  }
-
+  return (
+    <div className={classes.root}>
+      <Typography className={color}>{moment(currentTask.dueDates)
+        .fromNow()}</Typography>
+    </div>
+  )
 }
+
 
 DueDates.propTypes = {
   classes: object.isRequired,
-  actions: object.isRequired,
   currentTask: object.isRequired,
 }
 
-export default withStyles(styles)(connector(DueDates))
+export default withStyles(styles)(DueDates)

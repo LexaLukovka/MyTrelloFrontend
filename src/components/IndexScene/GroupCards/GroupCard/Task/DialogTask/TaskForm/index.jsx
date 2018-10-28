@@ -1,11 +1,9 @@
 import React from 'react'
 import { object } from 'prop-types'
-import { Button, DialogContent, Typography, withStyles } from '@material-ui/core'
+import { Button, Typography, withStyles } from '@material-ui/core'
 import CreateIcon from 'mdi-react/CreateIcon'
 import PlaylistAddIcon from 'mdi-react/PlaylistAddIcon'
 import UpdateIcon from 'mdi-react/UpdateIcon'
-
-import DueDatesForm from './DueDatesForm'
 
 import { Field, Form } from 'formik'
 import FormikText from './formik/FormikText'
@@ -13,10 +11,26 @@ import formik from './formik'
 
 import connector from './connector'
 
-const styles = () => ({
+const styles = (theme) => ({
   root: {
     width: '80%',
-    marginTop: -20,
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
+  },
+  desktop: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+  mobile: {
+    display: 'none',
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+    },
+  },
+  container: {
+    padding: 20,
   },
   icon: {
     margin: 10,
@@ -34,7 +48,7 @@ const styles = () => ({
 
 const TaskForm = ({ classes }) =>
   <div className={classes.root}>
-    <DialogContent>
+    <div className={classes.container}>
       <Form>
         <div className={classes.block}>
           <CreateIcon className={classes.icon} />
@@ -42,6 +56,15 @@ const TaskForm = ({ classes }) =>
             name="task"
             component={FormikText}
             placeholder="Введите таску"
+          />
+        </div>
+        <div className={classes.block}>
+          <UpdateIcon className={classes.icon} />
+          <Field
+            name="dueDates"
+            type="datetime-local"
+            component={FormikText}
+            placeholder="Введите дату и время"
           />
         </div>
         <div className={classes.block}>
@@ -58,15 +81,18 @@ const TaskForm = ({ classes }) =>
             />
           </div>
         </div>
-        <Button type="submit" color="primary">
-          Сохранить
-        </Button>
+        <div className={classes.desktop}>
+          <Button type="submit" color="primary">
+            Сохранить
+          </Button>
+        </div>
+        <div className={classes.mobile}>
+          <Button type="submit" fullWidth variant="raised" color="primary">
+            <Typography color="secondary">Сохранить</Typography>
+          </Button>
+        </div>
       </Form>
-      <div className={classes.block}>
-        <UpdateIcon className={classes.icon} />
-        <DueDatesForm />
-      </div>
-    </DialogContent>
+    </div>
   </div>
 
 TaskForm.propTypes = {
