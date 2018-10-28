@@ -7,9 +7,9 @@ import {
   DELETE_TASK_PENDING,
   DELETE_TASK_REJECTED,
 
-  UPDATE_GROUP_CARD_FULFILLED,
-  UPDATE_GROUP_CARD_PENDING,
-  UPDATE_GROUP_CARD_REJECTED,
+  UPDATE_TASK_FULFILLED,
+  UPDATE_TASK_PENDING,
+  UPDATE_TASK_REJECTED,
 } from './action'
 
 const initialState = {
@@ -22,7 +22,7 @@ const initialState = {
 const taskReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case CREATE_TASK_PENDING:
-    case UPDATE_GROUP_CARD_PENDING:
+    case UPDATE_TASK_PENDING:
     case DELETE_TASK_PENDING:
       return {
         ...state,
@@ -30,7 +30,7 @@ const taskReducer = (state = initialState, { type, payload }) => {
       }
 
     case CREATE_TASK_REJECTED:
-    case UPDATE_GROUP_CARD_REJECTED:
+    case UPDATE_TASK_REJECTED:
     case DELETE_TASK_REJECTED:
       return {
         ...state,
@@ -40,7 +40,7 @@ const taskReducer = (state = initialState, { type, payload }) => {
       }
 
     case CREATE_TASK_FULFILLED:
-    case UPDATE_GROUP_CARD_FULFILLED:
+    case UPDATE_TASK_FULFILLED:
       return {
         ...state,
         loading: false,

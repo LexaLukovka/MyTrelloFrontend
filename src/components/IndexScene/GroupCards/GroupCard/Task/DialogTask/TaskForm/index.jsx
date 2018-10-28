@@ -4,9 +4,12 @@ import { Button, Typography, withStyles } from '@material-ui/core'
 import CreateIcon from 'mdi-react/CreateIcon'
 import PlaylistAddIcon from 'mdi-react/PlaylistAddIcon'
 import UpdateIcon from 'mdi-react/UpdateIcon'
+import AddToPhotosIcon from 'mdi-react/AddToPhotosIcon'
+
+import ImageGrid from './ImageGrid'
 
 import { Field, Form } from 'formik'
-import FormikText from './formik/FormikText'
+import FormikText from 'components/formik/FormikText'
 import formik from './formik'
 
 import connector from './connector'
@@ -44,6 +47,9 @@ const styles = (theme) => ({
     width: '100%',
     paddingTop: 10,
   },
+  image: {
+    padding: 20,
+  },
 })
 
 const TaskForm = ({ classes }) =>
@@ -57,6 +63,12 @@ const TaskForm = ({ classes }) =>
             component={FormikText}
             placeholder="Введите таску"
           />
+        </div>
+        <div className={classes.block}>
+          <AddToPhotosIcon className={classes.icon} />
+          <div className={classes.input}>
+            <ImageGrid />
+          </div>
         </div>
         <div className={classes.block}>
           <UpdateIcon className={classes.icon} />

@@ -26,8 +26,9 @@ const formik = withFormik({
     const task = values.task
     const description = values.description
     const dueDates = values.dueDates
+    const pictures = currentTask.pictures || []
 
-    actions.task.update({ taskId, groupId, task, description, dueDates })
+    actions.task.update({ taskId, groupId, task, description, dueDates, pictures })
       .then(async () => {
         setSubmitting(false)
         await actions.groupCard.load()

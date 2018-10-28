@@ -6,7 +6,9 @@ const styles = theme => ({
   root: {
     alignSelf: 'flex-end',
     paddingBottom: 20,
+    paddingRight: 10,
     [theme.breakpoints.down('sm')]: {
+      paddingRight: 0,
       margin: '0 20px',
     },
   },
