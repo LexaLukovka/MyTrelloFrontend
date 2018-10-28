@@ -19,7 +19,7 @@ import {
 } from './action'
 
 const initialState = {
-  user: null,
+  user: JSON.parse(localStorage.getItem('user')) || null,
   errors: [],
   error: false,
   loading: false,

@@ -3,7 +3,6 @@ import { array, bool, object } from 'prop-types'
 import { withStyles } from '@material-ui/core'
 import GroupCards from 'components/IndexScene/GroupCards'
 import Loading from 'components/Loading'
-import { isEmpty } from 'lodash'
 import connector from './connector'
 
 const styles = () => ({

@@ -1,6 +1,7 @@
 import Auth from 'services/api/Auth'
 
 import * as alert from 'src/redux/alert/action'
+import dialogAuth from 'src/redux/dialogAuth/action'
 
 export const REGISTER_USER = 'REGISTER_USER'
 export const REGISTER_USER_PENDING = 'REGISTER_USER_PENDING'
@@ -38,6 +39,8 @@ export const facebook = (FBUser) => async dispatch => {
     payload: Auth.facebook(FBUser),
   })
 
+  dispatch(dialogAuth.closeDialogLogin())
+  dispatch(dialogAuth.closeDialogRegister())
   dispatch(alert.show('Вы вошли'))
 }
 
@@ -48,6 +51,8 @@ export const google = (Guser) => async dispatch => {
     payload: Auth.google(Guser),
   })
 
+  dispatch(dialogAuth.closeDialogLogin())
+  dispatch(dialogAuth.closeDialogRegister())
   dispatch(alert.show('Вы вошли'))
 }
 

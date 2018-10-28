@@ -9,7 +9,7 @@ import MyGroupCardHeader from './MyGroupCardHeader'
 import CreateTasks from './CreateTasks'
 import Task from './Task'
 
-import isEmpty from 'lodash-es/isEmpty'
+import isEmpty from 'lodash/isEmpty'
 
 const styles = () => ({
   root: {

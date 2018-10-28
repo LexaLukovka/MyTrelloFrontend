@@ -50,7 +50,10 @@ class PictureUpload extends React.Component {
     const response = await Http.post(this.props.url, data, {
       onUploadProgress: (progressEvent) => {
         const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-        this.setState({ percent })
+        this.setState({
+          percent,
+          loadingPicture: '',
+        })
       },
     })
 
@@ -87,13 +90,15 @@ class PictureUpload extends React.Component {
 
   render() {
     const { classes, name, helperText } = this.props
+    const { pictures, loadingPicture, percent } = this.state
+
     return (
       <FormControl className={classes.root}>
         <div className={classes.pictureList}>
-          <PictureList pictures={this.state.pictures} onDelete={this.handleDelete} />
+          <PictureList pictures={pictures} onDelete={this.handleDelete} />
           <AddPicture
-            loadingPicture={this.state.loadingPicture}
-            percent={this.state.percent}
+            loadingPicture={loadingPicture}
+            percent={percent}
             onClick={this.handleClickInput}
           />
         </div>

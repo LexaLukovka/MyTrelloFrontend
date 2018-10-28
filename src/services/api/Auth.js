@@ -7,6 +7,7 @@ class Auth {
     const { token } = await Http.post('/register', credentials)
     const user = JWT(token)._doc
 
+    localStorage.setItem('user', JSON.stringify(user))
     return { token, ...user }
   }
 
@@ -14,6 +15,7 @@ class Auth {
     const { token } = await Http.post('/login', credentials)
     const user = JWT(token)._doc
 
+    localStorage.setItem('user', JSON.stringify(user))
     return { token, ...user }
   }
 
@@ -21,6 +23,7 @@ class Auth {
     const { token } = await Http.post('/login/facebook', FBuser)
     const user = JWT(token)._doc
 
+    localStorage.setItem('user', JSON.stringify(user))
     return { token, ...user }
   }
 
@@ -28,6 +31,7 @@ class Auth {
     const { token } = await Http.post('/login/google', Guser)
     const user = JWT(token)._doc
 
+    localStorage.setItem('user', JSON.stringify(user))
     return { token, ...user }
   }
 }

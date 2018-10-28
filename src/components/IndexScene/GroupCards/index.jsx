@@ -8,7 +8,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import GroupCard from './GroupCard'
 import AddGroupCard from './AddGroupCard'
 
-import isEmpty from 'lodash-es/isEmpty'
+import isEmpty from 'lodash/isEmpty'
 import connector from './connector'
 
 const styles = () => ({

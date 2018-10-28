@@ -31,6 +31,7 @@ const formik = withFormik({
     actions.task.update({ taskId, groupId, task, description, dueDates, pictures })
       .then(async () => {
         setSubmitting(false)
+        actions.taskOpen.closeDetailsTask()
         await actions.groupCard.load()
         actions.groupCard.currentTask({ groupId, taskId })
       })

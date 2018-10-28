@@ -13,7 +13,6 @@ module.exports = {
       assets: path.resolve('./src/assets'),
       components: path.resolve(__dirname, './src/components/'),
       services: path.resolve(__dirname, './src/services/'),
-      'redux-persist': path.resolve(__dirname, './modules/redux-persist/'),
       utils: path.resolve(__dirname, './src/utils/'),
       src: path.resolve(__dirname, './src/'),
     },
