@@ -3,15 +3,15 @@ https://github.com/LexaLukovka/IncodeBackend
 
 Close your project in *http://localhost:3333/*
 
-    git clone https://github.com/LexaLukovka/IncodeBackend
     run mongoDb
+    $ git clone https://github.com/LexaLukovka/IncodeBackend
     $ npm install
     $ npm run dev
     
 ## Getting started Frontend
 Close your project in *http://localhost:2000/*
 
-    git clone https://github.com/LexaLukovka/IncodeFrontend
+    $ git clone https://github.com/LexaLukovka/IncodeFrontend
     $ npm install
     $ npm run start
 
