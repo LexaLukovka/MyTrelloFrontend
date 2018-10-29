@@ -18,3 +18,5 @@ Close your project in *http://localhost:2000/*
 Go to *http://localhost:2000/*
 
 Go to *F12 => Application => Clear storage => Clear site data*
+
+Add can drag group card in board
