@@ -4,6 +4,7 @@ https://github.com/LexaLukovka/IncodeBackend
 Close your project in *http://localhost:3333/*
 
     git clone https://github.com/LexaLukovka/IncodeBackend
+    run mongoDb
     $ npm install
     $ npm run dev
     
